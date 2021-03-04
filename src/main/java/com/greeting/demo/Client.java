@@ -7,7 +7,7 @@ import lombok.*;
 //@NoArgsConstructor
 @RequiredArgsConstructor
 //@AllArgsConstructor
-public class Greeting {
+public class Client {
 
 //    Variable may not have been initialized
 //    https://projectlombok.org/features/constructor

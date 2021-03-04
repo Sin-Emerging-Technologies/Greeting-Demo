@@ -11,8 +11,8 @@ public class ApplicationController {
 
 //    These paths are case-sensitive it appears
     @GetMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    public Client greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+        return new Client(counter.incrementAndGet(), String.format(template, name));
     }
 
 }
