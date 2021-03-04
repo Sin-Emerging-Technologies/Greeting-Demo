@@ -1,4 +1,4 @@
-package com.greeting.demo;
+package com.sinemergingtechnologies.database;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

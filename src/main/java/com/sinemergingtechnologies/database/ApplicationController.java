@@ -1,4 +1,4 @@
-package com.greeting.demo;
+package com.sinemergingtechnologies.database;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.*;
