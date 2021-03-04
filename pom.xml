@@ -8,13 +8,13 @@
         <version>2.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.greeting</groupId>
-    <artifactId>demo</artifactId>
+    <groupId>com.sinemergingtechnologies.database</groupId>
+    <artifactId>database</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 <!--    comment this to restore default jar packaging-->
 <!--    <packaging>war</packaging>-->
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>database</name>
+    <description>database project for Spring Boot</description>
 
     <properties>
         <java.version>8</java.version>
