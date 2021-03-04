@@ -1,6 +1,8 @@
-package com.sinemergingtechnologies.database;
+package com.sinemergingtechnologies.database.controller;
 
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.sinemergingtechnologies.database.model.Client;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

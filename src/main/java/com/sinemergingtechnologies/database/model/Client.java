@@ -1,4 +1,4 @@
-package com.sinemergingtechnologies.database;
+package com.sinemergingtechnologies.database.model;
 
 import lombok.*;
 
