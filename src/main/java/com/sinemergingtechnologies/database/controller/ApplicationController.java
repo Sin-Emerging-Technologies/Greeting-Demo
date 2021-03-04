@@ -12,8 +12,8 @@ public class ApplicationController {
     private final AtomicLong counter = new AtomicLong();
 
 //    These paths are case-sensitive it appears
-    @GetMapping("/greeting")
-    public Client greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+    @GetMapping("/clients")
+    public Client getClients(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Client(counter.incrementAndGet(), String.format(template, name));
     }
 
