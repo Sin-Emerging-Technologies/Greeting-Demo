@@ -1,13 +1,13 @@
-package com.greeting.demo;
+package com.sinemergingtechnologies.database;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GreetingApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GreetingApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

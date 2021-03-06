@@ -1,4 +1,4 @@
-package com.greeting.demo;
+package com.sinemergingtechnologies.database;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

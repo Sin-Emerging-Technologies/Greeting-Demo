@@ -172,3 +172,8 @@ demo.iml
 .idea/misc.xml
 /.idea
 /.mvn
+.settings/
+database.iml
+.project
+.factorypath
+.classpath
