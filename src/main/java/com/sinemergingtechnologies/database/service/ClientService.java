@@ -17,4 +17,9 @@ public class ClientService implements IClientService {
     public List<Client> findAll() {
         return (List<Client>) clientRepository.findAll();
     }
+
+    @Override
+    public Client save(Client client) {
+        return (Client) clientRepository.save(client);
+    }
 }

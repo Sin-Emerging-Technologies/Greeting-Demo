@@ -21,7 +21,7 @@ public class ApplicationController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    private Client newClient = new Client(
+    private Client sampleClient = new Client(
 //            counter.incrementAndGet(),
             "firstname",
             "lastname",
@@ -47,7 +47,7 @@ public class ApplicationController {
             System.out.println(firstClient.toString());
             System.out.println(firstClient.hashCode());
             System.out.println(firstClient.equals(firstClient));
-            System.out.println(newClient.equals(firstClient));
+            System.out.println(sampleClient.equals(firstClient));
         } else {
             System.out.println("no clients found");
         }
@@ -56,21 +56,21 @@ public class ApplicationController {
         return clients;
     }
 
-    @PutMapping("/client")
-    public Client createClient(@RequestParam(value = "name", defaultValue = "World") String name) {
+    @PostMapping("/clients")
+    public Client newClient(@RequestBody Client newClient) {
 //        List<Client> clients = (List<Client>) clientService.findAll();
 //        if (clients.size() > 0) {
 //            Client firstClient = (Client) clients.get(0);
 //            System.out.println(firstClient.toString());
 //            System.out.println(firstClient.hashCode());
 //            System.out.println(firstClient.equals(firstClient));
-//            System.out.println(newClient.equals(firstClient));
+//            System.out.println(sampleClient.equals(firstClient));
 //        } else {
 //            System.out.println("no clients found");
 //        }
         // System.out.println(getId().x);
-        System.out.println("Created new client");
-        return newClient;
+        System.out.println("Creating new client");
+        return clientService.save(newClient);
     }
 
     @GetMapping("/test")
@@ -80,6 +80,6 @@ public class ApplicationController {
     @GetMapping("/testobj")
     public Client testObj(@RequestParam(value = "name", defaultValue = "World") String name) {
 
-        return newClient;
+        return sampleClient;
     }
 }

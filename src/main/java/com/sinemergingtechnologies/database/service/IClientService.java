@@ -7,4 +7,5 @@ import java.util.List;
 public abstract interface IClientService {
 
     abstract List<Client> findAll();
+    abstract Client save(Client client);
 }
