@@ -56,6 +56,23 @@ public class ApplicationController {
         return clients;
     }
 
+    @PutMapping("/client")
+    public Client createClient(@RequestParam(value = "name", defaultValue = "World") String name) {
+//        List<Client> clients = (List<Client>) clientService.findAll();
+//        if (clients.size() > 0) {
+//            Client firstClient = (Client) clients.get(0);
+//            System.out.println(firstClient.toString());
+//            System.out.println(firstClient.hashCode());
+//            System.out.println(firstClient.equals(firstClient));
+//            System.out.println(newClient.equals(firstClient));
+//        } else {
+//            System.out.println("no clients found");
+//        }
+        // System.out.println(getId().x);
+        System.out.println("Created new client");
+        return newClient;
+    }
+
     @GetMapping("/test")
     public String testRoute(@RequestParam(value = "name", defaultValue = "World") String name) {
         return "hello test";
