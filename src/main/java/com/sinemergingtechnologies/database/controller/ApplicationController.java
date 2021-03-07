@@ -80,26 +80,34 @@ public class ApplicationController {
 
     }
 
-//    @PutMapping("/clients/{id}")
-//    private Client updateClient(@RequestBody Client updatedClient, @PathVariable Long id) {
-//
-//        return clientService.findById(id)
-//                .map(client -> {
-//                    client.setFirstname(updatedClient.getFirstname());
-//                    client.setLastname(updatedClient.getLastname());
-//                    client.setEmail(updatedClient.getEmail());
-//                    client.setCity(updatedClient.getCity());
-//                    client.setUs_state(updatedClient.getUs_state());
-//                    client.setPass(updatedClient.getPass());
-//                    client.setConfirm(updatedClient.getConfirm());
-//
-//                    return clientService.save(client);
-//                })
-//                .orElseGet(() -> {
-//                    updatedClient.setId(id);
-//                    return clientService.save(updatedClient);
-//                });
-//    }
+    @PutMapping("/clients/{id}")
+    private ResponseEntity<Client> updateClient(@RequestBody Client clientToUpdate, @PathVariable Long id) {
+        System.out.println("Updating client with id " + id + ".");
+
+        if(id == null || id < 1) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Client> foundSingleClient = clientService.findById(id);
+
+        if (!foundSingleClient.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Client preUpdateClient = foundSingleClient.get();
+
+        preUpdateClient.setFirstname(clientToUpdate.getFirstname());
+        preUpdateClient.setLastname(clientToUpdate.getLastname());
+        preUpdateClient.setEmail(clientToUpdate.getEmail());
+        preUpdateClient.setCity(clientToUpdate.getCity());
+        preUpdateClient.setUs_state(clientToUpdate.getUs_state());
+        preUpdateClient.setPass(clientToUpdate.getPass());
+        preUpdateClient.setConfirm(clientToUpdate.getConfirm());
+
+        Client updatedClient = clientService.save(preUpdateClient);
+
+        return ResponseEntity.ok(updatedClient);
+    }
 
 //    @DeleteMapping("/employees/{id}")
 //    void deleteEmployee(@PathVariable Long id) {
