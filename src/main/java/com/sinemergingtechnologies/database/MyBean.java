@@ -14,10 +14,7 @@ public class MyBean {
     @Autowired
     public MyBean(@Value("${server.port}") String serverPort) {
         this.serverPort = serverPort;
-
-        System.out.println("\n");
-        System.out.println("================== " + serverPort + " ================== ");
-        System.out.println("\n");
+        System.out.println("\n======= " + serverPort + " =======\n");
     }
 }
 

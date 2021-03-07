@@ -1,13 +1,10 @@
 package com.sinemergingtechnologies.database.controller;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.sinemergingtechnologies.database.model.Client;
-import com.sinemergingtechnologies.database.model.Tuple;
 import com.sinemergingtechnologies.database.service.IClientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +18,6 @@ public class ApplicationController {
     @Autowired
     private IClientService clientService;
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
     private Client sampleClient = new Client(
             "firstname",
             "lastname",
@@ -33,12 +27,6 @@ public class ApplicationController {
             "pass",
             "confirm"
     );
-
-    private Tuple<UUID, BigInteger> getId() {
-        UUID uuid = UUID.randomUUID();
-        BigInteger bigInt = new BigInteger(uuid.toString().replace("-", ""), 16);
-        return new Tuple<>(uuid, bigInt);
-    }
 
 //    These paths are case-sensitive it appears
     @GetMapping("/clients")
