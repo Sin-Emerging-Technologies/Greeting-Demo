@@ -23,7 +23,7 @@ public class Client {
 //    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
     private UUID client_uuid = UUID.randomUUID();
-    private @Id BigInteger id = new BigInteger(client_uuid.toString().replace("-", ""), 16);
+    private @Id Long id = client_uuid.getMostSignificantBits() & Long.MAX_VALUE;
     private @NonNull String firstname;
     private @NonNull String lastname;
     private @NonNull String email;
