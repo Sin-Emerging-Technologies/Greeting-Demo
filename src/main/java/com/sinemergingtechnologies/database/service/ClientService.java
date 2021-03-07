@@ -28,4 +28,8 @@ public class ClientService implements IClientService {
     public Optional<Client> findById(Long id) {
         return clientRepository.findById(id);
     }
+    @Override
+    public void deleteById(Long id) {
+        clientRepository.deleteById(id);
+    }
 }

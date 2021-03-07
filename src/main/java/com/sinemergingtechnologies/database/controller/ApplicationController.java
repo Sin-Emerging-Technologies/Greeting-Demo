@@ -11,6 +11,7 @@ import com.sinemergingtechnologies.database.model.Tuple;
 import com.sinemergingtechnologies.database.service.IClientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,10 +110,19 @@ public class ApplicationController {
         return ResponseEntity.ok(updatedClient);
     }
 
-//    @DeleteMapping("/employees/{id}")
-//    void deleteEmployee(@PathVariable Long id) {
-//        clientService.deleteById(id);
-//    }
+    @DeleteMapping("/clients/{id}")
+    private ResponseEntity deleteClient(@PathVariable Long id) {
+        System.out.println("Deleting client with id " + id + ".");
+        clientService.deleteById(id);
+
+        Optional<Client> foundSingleClient = clientService.findById(id);
+
+        if (foundSingleClient.isPresent()) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+        }
+
+        return ResponseEntity.ok(id);
+    }
 
     @GetMapping("/test")
     public String testRoute(@RequestParam(value = "name", defaultValue = "World") String name) {
