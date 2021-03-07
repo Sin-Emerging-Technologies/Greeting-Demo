@@ -3,27 +3,18 @@ package com.sinemergingtechnologies.database.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-//@AllArgsConstructor
 @Entity
 @Table(name = "clients")
 public class Client {
 
-//    Variable may not have been initialized
-//    https://projectlombok.org/features/constructor
-//    I think this is ok because it runs and Postman works
- // is this needed? rds set up with auto increment
-
-//    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-
     private UUID client_uuid = UUID.randomUUID();
-    private @Id BigInteger id = new BigInteger(client_uuid.toString().replace("-", ""), 16);
+    private @Id Long id = client_uuid.getMostSignificantBits() & Long.MAX_VALUE;
     private @NonNull String firstname;
     private @NonNull String lastname;
     private @NonNull String email;
@@ -46,6 +37,7 @@ public class Client {
         if (this.getId() == null) return false;
         System.out.println("this.getId() != null");
         System.out.println(this.getId() + ":" + other.getId());
+        System.out.println(this.getEmail() + ":" + other.getEmail());
 
         return this.getId().equals(other.getId());
     }
