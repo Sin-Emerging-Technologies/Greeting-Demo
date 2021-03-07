@@ -2,6 +2,7 @@ package com.sinemergingtechnologies.database.utils;
 
 import com.sinemergingtechnologies.database.model.Client;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ClientUtils {
@@ -36,7 +37,7 @@ public class ClientUtils {
         if (clientUnderTest.getConfirm() instanceof String == false) return false;
 
         if (clientUnderTest.getPass().length() < minPasswordLength) return false;
-        if (clientUnderTest.getPass() != clientUnderTest.getConfirm()) return false;
+        if (!Objects.equals(clientUnderTest.getPass(), clientUnderTest.getConfirm())) return false;
 
         return true;
     }
