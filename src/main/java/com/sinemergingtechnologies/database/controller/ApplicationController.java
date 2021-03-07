@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
+
 @RestController
 public class ApplicationController {
 
@@ -46,9 +48,18 @@ public class ApplicationController {
     }
 
     @PostMapping("/clients")
-    private Client newClient(@RequestBody Client newClient) {
+    private ResponseEntity<Client> newClient(@RequestBody Client newClient) {
+        if (!validClient(newClient)) {
+            return ResponseEntity.badRequest().build();
+        }
         System.out.println("Creating new client");
-        return clientService.save(newClient);
+        Client createdClient = clientService.save(newClient);
+
+        if (createdClient == null || createdClient.getId() < 1) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(createdClient);
     }
 
     @GetMapping("/clients/{id}")
