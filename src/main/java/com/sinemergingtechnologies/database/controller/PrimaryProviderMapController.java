@@ -33,14 +33,10 @@ public class PrimaryProviderMapController {
     private List<PrimaryProviderMap> getPrimaryProviderMaps(@RequestParam(value = "name", defaultValue = "World") String name) {
         List<PrimaryProviderMap> clients = (List<PrimaryProviderMap>) clientService.findAll();
         if (clients.size() > 0) {
-            PrimaryProviderMap firstPrimaryProviderMap = (PrimaryProviderMap) clients.get(0);
-            System.out.println(firstPrimaryProviderMap.toString());
-            System.out.println(firstPrimaryProviderMap.hashCode());
-            System.out.println(firstPrimaryProviderMap.equals(firstPrimaryProviderMap));
-            System.out.println(samplePrimaryProviderMap.equals(firstPrimaryProviderMap));
-        } else {
-            System.out.println("no PrimaryProviderMaps found");
+            // PrimaryProviderMap firstPrimaryProviderMap = (PrimaryProviderMap) clients.get(0);
         }
+
+        System.out.println("Found " + clients.size() + " PrimaryProviderMaps");
 
         return clients;
     }
