@@ -2,17 +2,21 @@ package com.sinemergingtechnologies.database.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
+import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IClientService;
 
+import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
+import com.sinemergingtechnologies.database.service.IProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
+import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 
 @RestController
 @RequestMapping("/clients")
@@ -20,6 +24,10 @@ public class ClientController {
 
     @Autowired
     private IClientService clientService;
+    @Autowired
+    private IProviderService providerService;
+    @Autowired
+    private IPrimaryProviderMapService primaryProviderMapService;
 
     private Client sampleClient = new Client(
             "firstname",
@@ -58,6 +66,23 @@ public class ClientController {
 
         if (!validClient(createdClient)) {
             return ResponseEntity.notFound().build();
+        }
+
+        // get list of providers
+        List<Provider> providers = providerService.findAll();
+
+        int randomIndex = (int) Math.floor(Math.random()*providers.size());
+        PrimaryProviderMap map = new PrimaryProviderMap(
+                newClient.getClient_uuid(),
+                newClient.getId(),
+                providers.get(randomIndex).getProvider_uuid(),
+                providers.get(randomIndex).getId()
+        );
+        PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
+        if (!validPrimaryProviderMap(savedMap)) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createdClient);
         }
 
         return ResponseEntity.ok(createdClient);
