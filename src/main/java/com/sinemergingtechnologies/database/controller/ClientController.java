@@ -59,9 +59,11 @@ public class ClientController {
     @PostMapping("/")
     private ResponseEntity<Client> newClient(@RequestBody Client newClient) {
         System.out.println("Attempting to create new client");
+
         if (!validClient(newClient)) {
             return ResponseEntity.badRequest().build();
         }
+
         Client createdClient = clientService.save(newClient);
 
         if (!validClient(createdClient)) {
@@ -78,7 +80,9 @@ public class ClientController {
                 providers.get(randomIndex).getProvider_uuid(),
                 providers.get(randomIndex).getId()
         );
+
         PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
+
         if (!validPrimaryProviderMap(savedMap)) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

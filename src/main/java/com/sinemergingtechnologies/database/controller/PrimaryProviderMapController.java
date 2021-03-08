@@ -4,22 +4,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.sinemergingtechnologies.database.model.Client;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
+import com.sinemergingtechnologies.database.model.Provider;
+import com.sinemergingtechnologies.database.service.IClientService;
 import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
 
+import com.sinemergingtechnologies.database.service.IProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
+import static com.sinemergingtechnologies.database.utils.ProviderUtils.validProvider;
+import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
 
 @RestController
 @RequestMapping("/primaryprovidermap")
 public class PrimaryProviderMapController {
 
     @Autowired
-    private IPrimaryProviderMapService clientService;
+    private IPrimaryProviderMapService primaryProviderMapService;
+    @Autowired
+    private IClientService clientService;
+    @Autowired
+    private IProviderService providerService;
 
     private PrimaryProviderMap samplePrimaryProviderMap = new PrimaryProviderMap(
             UUID.fromString("88888888-4444-4444-4444-bbbbbbbbbbbb"),
@@ -31,7 +41,7 @@ public class PrimaryProviderMapController {
     //    These paths are case-sensitive it appears
     @GetMapping("/")
     private List<PrimaryProviderMap> getPrimaryProviderMaps(@RequestParam(value = "name", defaultValue = "World") String name) {
-        List<PrimaryProviderMap> clients = (List<PrimaryProviderMap>) clientService.findAll();
+        List<PrimaryProviderMap> clients = (List<PrimaryProviderMap>) primaryProviderMapService.findAll();
         if (clients.size() > 0) {
             // PrimaryProviderMap firstPrimaryProviderMap = (PrimaryProviderMap) clients.get(0);
         }
@@ -44,10 +54,24 @@ public class PrimaryProviderMapController {
     @PostMapping("/")
     private ResponseEntity<PrimaryProviderMap> newPrimaryProviderMap(@RequestBody PrimaryProviderMap newPrimaryProviderMap) {
         System.out.println("Attempting to create new PrimaryProviderMap");
+
         if (!validPrimaryProviderMap(newPrimaryProviderMap)) {
             return ResponseEntity.badRequest().build();
         }
-        PrimaryProviderMap createdPrimaryProviderMap = clientService.save(newPrimaryProviderMap);
+
+        Optional<Provider> provider = providerService.findById(newPrimaryProviderMap.getProvider_id());
+        Optional<Client> client = clientService.findById(newPrimaryProviderMap.getId());
+
+        if (
+            !client.isPresent() ||
+            !provider.isPresent() ||
+            !validClient(client.get()) ||
+            !validProvider(provider.get())
+        ) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        PrimaryProviderMap createdPrimaryProviderMap = primaryProviderMapService.save(newPrimaryProviderMap);
 
         if (!validPrimaryProviderMap(createdPrimaryProviderMap)) {
             return ResponseEntity.notFound().build();
@@ -64,7 +88,7 @@ public class PrimaryProviderMapController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = clientService.findById(id);
+        Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = primaryProviderMapService.findById(id);
 
         if (!foundSinglePrimaryProviderMap.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -82,7 +106,7 @@ public class PrimaryProviderMapController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = clientService.findById(id);
+        Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = primaryProviderMapService.findById(id);
 
         if (!foundSinglePrimaryProviderMap.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -95,7 +119,7 @@ public class PrimaryProviderMapController {
         preUpdatePrimaryProviderMap.setProvider_uuid(clientToUpdate.getProvider_uuid());
         preUpdatePrimaryProviderMap.setProvider_id(clientToUpdate.getProvider_id());
 
-        PrimaryProviderMap updatedPrimaryProviderMap = clientService.save(preUpdatePrimaryProviderMap);
+        PrimaryProviderMap updatedPrimaryProviderMap = primaryProviderMapService.save(preUpdatePrimaryProviderMap);
 
         return ResponseEntity.ok(updatedPrimaryProviderMap);
     }
@@ -103,9 +127,9 @@ public class PrimaryProviderMapController {
     @DeleteMapping("/{id}")
     private ResponseEntity deletePrimaryProviderMap(@PathVariable Long id) {
         System.out.println("PrimaryProviderMap client with id " + id + ".");
-        clientService.deleteById(id);
+        primaryProviderMapService.deleteById(id);
 
-        Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = clientService.findById(id);
+        Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = primaryProviderMapService.findById(id);
 
         if (foundSinglePrimaryProviderMap.isPresent()) {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
