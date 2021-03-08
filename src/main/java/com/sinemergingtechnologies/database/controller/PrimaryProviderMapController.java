@@ -53,7 +53,7 @@ public class PrimaryProviderMapController {
         }
         PrimaryProviderMap createdPrimaryProviderMap = clientService.save(newPrimaryProviderMap);
 
-        if (createdPrimaryProviderMap == null || createdPrimaryProviderMap.getId() < 1) {
+        if (!validPrimaryProviderMap(createdPrimaryProviderMap)) {
             return ResponseEntity.notFound().build();
         }
 

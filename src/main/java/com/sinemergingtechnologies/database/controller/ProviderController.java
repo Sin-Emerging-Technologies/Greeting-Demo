@@ -57,7 +57,7 @@ public class ProviderController {
         System.out.println("Creating new provider");
         Provider createdProvider = providerService.save(newProvider);
 
-        if (createdProvider == null || createdProvider.getId() < 1) {
+        if (!validProvider(createdProvider)) {
             return ResponseEntity.notFound().build();
         }
 

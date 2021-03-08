@@ -56,7 +56,7 @@ public class ClientController {
         }
         Client createdClient = clientService.save(newClient);
 
-        if (createdClient == null || createdClient.getId() < 1) {
+        if (!validClient(createdClient)) {
             return ResponseEntity.notFound().build();
         }
 
