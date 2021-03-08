@@ -22,8 +22,8 @@ public class PrimaryProviderMapController {
     private IPrimaryProviderMapService clientService;
 
     private PrimaryProviderMap samplePrimaryProviderMap = new PrimaryProviderMap(
-            UUID.fromString("22a86c9f-52c8-4b5b-a65e-72f4d4573ab9"),
-            2497365424921398107L,
+            UUID.fromString("88888888-4444-4444-4444-bbbbbbbbbbbb"),
+            1234567890123456789L,
             UUID.fromString("22a86c9f-52c8-4b5b-a65e-72f4d4573ab9"),
             2497365424921398107L
     );
