@@ -11,8 +11,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 //@AllArgsConstructor
 @Entity
-@Table(name = "providerclientmap")
-public class ProviderClientMap {
+@Table(name = "primaryprovidermap")
+public class PrimaryProviderMap {
 
     private @NonNull UUID client_uuid; // = UUID.randomUUID();
     private @NonNull @Id Long id; // = client_uuid.getMostSignificantBits() & Long.MAX_VALUE;
@@ -25,11 +25,11 @@ public class ProviderClientMap {
         if (this == o) return true;
         System.out.println("this != o");
 
-        if (!(o instanceof ProviderClientMap))
+        if (!(o instanceof PrimaryProviderMap))
             return false;
-        System.out.println("(o instanceof ProviderClientMap)");
+        System.out.println("(o instanceof PrimaryProviderMap)");
 
-        ProviderClientMap other = (ProviderClientMap) o;
+        PrimaryProviderMap other = (PrimaryProviderMap) o;
 
         if (this.getId() == null) return false;
         System.out.println("this.getId() != null");
