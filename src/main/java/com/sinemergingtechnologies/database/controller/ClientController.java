@@ -2,23 +2,32 @@ package com.sinemergingtechnologies.database.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
+import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IClientService;
 
+import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
+import com.sinemergingtechnologies.database.service.IProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
+import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 
 @RestController
-public class ApplicationController {
+@RequestMapping("/clients")
+public class ClientController {
 
     @Autowired
     private IClientService clientService;
+    @Autowired
+    private IProviderService providerService;
+    @Autowired
+    private IPrimaryProviderMapService primaryProviderMapService;
 
     private Client sampleClient = new Client(
             "firstname",
@@ -31,7 +40,7 @@ public class ApplicationController {
     );
 
 //    These paths are case-sensitive it appears
-    @GetMapping("/clients")
+    @GetMapping("/")
     private List<Client> getClients(@RequestParam(value = "name", defaultValue = "World") String name) {
         List<Client> clients = (List<Client>) clientService.findAll();
         if (clients.size() > 0) {
@@ -47,22 +56,43 @@ public class ApplicationController {
         return clients;
     }
 
-    @PostMapping("/clients")
+    @PostMapping("/")
     private ResponseEntity<Client> newClient(@RequestBody Client newClient) {
+        System.out.println("Attempting to create new client");
+
         if (!validClient(newClient)) {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println("Creating new client");
+
         Client createdClient = clientService.save(newClient);
 
-        if (createdClient == null || createdClient.getId() < 1) {
+        if (!validClient(createdClient)) {
             return ResponseEntity.notFound().build();
+        }
+
+        // get list of providers
+        List<Provider> providers = providerService.findAll();
+
+        int randomIndex = (int) Math.floor(Math.random()*providers.size());
+        PrimaryProviderMap map = new PrimaryProviderMap(
+                newClient.getClient_uuid(),
+                newClient.getId(),
+                providers.get(randomIndex).getProvider_uuid(),
+                providers.get(randomIndex).getId()
+        );
+
+        PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
+
+        if (!validPrimaryProviderMap(savedMap)) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createdClient);
         }
 
         return ResponseEntity.ok(createdClient);
     }
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("/{id}")
     private ResponseEntity<Client> getSingleClient(@PathVariable("id") Long id) {
         System.out.println("Searching for client with id " + id + ".");
 
@@ -80,7 +110,7 @@ public class ApplicationController {
 
     }
 
-    @PutMapping("/clients/{id}")
+    @PutMapping("/{id}")
     private ResponseEntity<Client> updateClient(@RequestBody Client clientToUpdate, @PathVariable Long id) {
         System.out.println("Updating client with id " + id + ".");
 
@@ -109,7 +139,7 @@ public class ApplicationController {
         return ResponseEntity.ok(updatedClient);
     }
 
-    @DeleteMapping("/clients/{id}")
+    @DeleteMapping("/{id}")
     private ResponseEntity deleteClient(@PathVariable Long id) {
         System.out.println("Deleting client with id " + id + ".");
         clientService.deleteById(id);
@@ -121,16 +151,5 @@ public class ApplicationController {
         }
 
         return ResponseEntity.ok(id);
-    }
-
-    @GetMapping("/test")
-    public String testRoute(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return "hello test";
-    }
-    @GetMapping("/testobj/{id}")
-    public String testObj(@RequestParam(value = "name", defaultValue = "World") String name,
-                          @PathVariable("id") String idString) {
-        Long id = UUID.fromString(idString).getMostSignificantBits() & Long.MAX_VALUE;
-        return id.toString();
     }
 }
