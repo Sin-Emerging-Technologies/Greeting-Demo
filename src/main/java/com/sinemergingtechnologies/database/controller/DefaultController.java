@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/")
 public class DefaultController {
 
