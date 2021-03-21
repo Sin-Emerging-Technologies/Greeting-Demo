@@ -44,13 +44,7 @@ public class ClientController {
     @GetMapping("/")
     private List<Client> getClients(@RequestParam(value = "name", defaultValue = "World") String name) {
         List<Client> clients = (List<Client>) clientService.findAll();
-        if (clients.size() > 0) {
-            Client firstClient = (Client) clients.get(0);
-            System.out.println(firstClient.toString());
-            System.out.println(firstClient.hashCode());
-            System.out.println(firstClient.equals(firstClient));
-            System.out.println(sampleClient.equals(firstClient));
-        } else {
+        if (clients.size() < 1) {
             System.out.println("no clients found");
         }
 
