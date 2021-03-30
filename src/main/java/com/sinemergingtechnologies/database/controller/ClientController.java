@@ -51,6 +51,17 @@ public class ClientController {
         return clients;
     }
 
+   @PostMapping("/login")
+   private List<Client> attemptLogin() {
+       System.out.println("fake login attempt");
+       List<Client> clients = (List<Client>) clientService.findAll();
+       if (clients.size() < 1) {
+           System.out.println("no clients found");
+       }
+
+       return clients;
+   }
+
     @PostMapping("/")
     private ResponseEntity<Client> newClient(@RequestBody Client newClient) {
         System.out.println("Attempting to create new client");
