@@ -53,19 +53,26 @@ public class ClientController {
     }
 
    @PostMapping("/login")
-   private String attemptLogin(@RequestBody LoginAttempt loginAttempt) {
+   private ResponseEntity attemptLogin(@RequestBody LoginAttempt loginAttempt) {
        System.out.println("fake login attempt");
        System.out.println(loginAttempt.toString());
-       List<Client> clients = (List<Client>) clientService.findByEmail(loginAttempt.getEmail());
-       if (clients.size() < 1 || clients.size() > 1) {
-           String msg = "Error - Expected 1 client but found " + clients.size();
-           System.out.println(msg);
-           return msg;
-       }
-       System.out.println(clients.get(0).toString());
-       System.out.println(clients.get(0).toString());
 
-       return "login attempt";
+       List<Client> clients = (List<Client>) clientService.findByEmail(loginAttempt.getEmail());
+
+       if (clients.size() < 1 || clients.size() > 1) {
+           System.out.println("Error - Expected 1 client but found " + clients.size());
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(sampleClient);
+       }
+
+       Client clientWithEmail = clients.get(0);
+       System.out.println(clientWithEmail.toString());
+
+       if (!loginAttempt.getPass().equals(clientWithEmail.getPass())) {
+           System.out.println("Error - invalid password");
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleClient);
+       }
+
+      return ResponseEntity.ok(clientWithEmail);
    }
 
     @PostMapping("/")
