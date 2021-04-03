@@ -54,7 +54,7 @@ public class ClientController {
 
    @PostMapping("/login")
    private ResponseEntity attemptLogin(@RequestBody LoginAttempt loginAttempt) {
-       System.out.println("fake login attempt");
+       System.out.println("fake client login attempt");
        System.out.println(loginAttempt.toString());
 
        List<Client> clients = (List<Client>) clientService.findByEmail(loginAttempt.getEmail());
