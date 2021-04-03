@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.LoginAttempt;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
 import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IClientService;
@@ -52,14 +53,19 @@ public class ClientController {
     }
 
    @PostMapping("/login")
-   private List<Client> attemptLogin() {
+   private String attemptLogin(@RequestBody LoginAttempt loginAttempt) {
        System.out.println("fake login attempt");
-       List<Client> clients = (List<Client>) clientService.findAll();
-       if (clients.size() < 1) {
-           System.out.println("no clients found");
+       System.out.println(loginAttempt.toString());
+       List<Client> clients = (List<Client>) clientService.findByEmail(loginAttempt.getEmail());
+       if (clients.size() < 1 || clients.size() > 1) {
+           String msg = "Error - Expected 1 client but found " + clients.size();
+           System.out.println(msg);
+           return msg;
        }
+       System.out.println(clients.get(0).toString());
+       System.out.println(clients.get(0).toString());
 
-       return clients;
+       return "login attempt";
    }
 
     @PostMapping("/")

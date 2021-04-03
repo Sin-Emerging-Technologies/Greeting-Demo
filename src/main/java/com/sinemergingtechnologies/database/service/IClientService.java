@@ -11,4 +11,5 @@ public abstract interface IClientService {
     abstract Client save(Client client);
     abstract Optional<Client> findById(Long id);
     abstract void deleteById(Long id);
+    abstract List<Client> findByEmail(String email);
 }

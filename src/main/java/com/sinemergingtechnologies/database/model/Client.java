@@ -42,6 +42,18 @@ public class Client {
         return this.getId().equals(other.getId());
     }
 
+    public String toString() {
+        return "id: " + this.getId() +
+        "\n, client_uuid: " + this.getClient_uuid() +
+        "\n, firstname: " + this.getFirstname() +
+        "\n, lastname: " + this.getLastname() +
+        "\n, email: " + this.getEmail() +
+        "\n, city: " + this.getCity() +
+        "\n, us_state: " + this.getUs_state() +
+        "\n, pass: " + this.getPass() +
+        "\n, confirm: " + this.getConfirm();
+    }
+
     @Override
     public int hashCode() {
         return getClass().hashCode();
