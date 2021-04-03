@@ -1,5 +1,6 @@
 package com.sinemergingtechnologies.database.service;
 
+import com.sinemergingtechnologies.database.model.Client;
 import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class ProviderService  implements IProviderService {
     @Override
     public void deleteById(Long id) {
         providerRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Provider> findByEmail(String email) {
+        return providerRepository.findByEmail(email);
     }
 }

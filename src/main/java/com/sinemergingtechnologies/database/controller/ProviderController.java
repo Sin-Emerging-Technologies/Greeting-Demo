@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.sinemergingtechnologies.database.model.LoginAttempt;
 import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IProviderService;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.sinemergingtechnologies.database.utils.ProviderUtils.validProvider;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/providers")
 public class ProviderController {
 
@@ -47,6 +49,29 @@ public class ProviderController {
         }
 
         return providers;
+    }
+
+    @PostMapping("/login")
+    private ResponseEntity attemptLogin(@RequestBody LoginAttempt loginAttempt) {
+        System.out.println("fake prpovider login attempt");
+        System.out.println(loginAttempt.toString());
+
+        List<Provider> providers = (List<Provider>) providerService.findByEmail(loginAttempt.getEmail());
+
+        if (providers.size() < 1 || providers.size() > 1) {
+            System.out.println("Error - Expected 1 provider but found " + providers.size());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(sampleProvider);
+        }
+
+        Provider providerWithEmail = providers.get(0);
+        System.out.println(providerWithEmail.toString());
+
+        if (!loginAttempt.getPass().equals(providerWithEmail.getPass())) {
+            System.out.println("Error - invalid password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleProvider);
+        }
+
+        return ResponseEntity.ok(providerWithEmail);
     }
 
     @PostMapping("/")

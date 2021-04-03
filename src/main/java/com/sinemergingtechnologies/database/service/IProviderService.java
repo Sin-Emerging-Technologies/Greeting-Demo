@@ -11,4 +11,5 @@ public abstract interface IProviderService {
     abstract Provider save(Provider client);
     abstract Optional<Provider> findById(Long id);
     abstract void deleteById(Long id);
+    abstract List<Provider> findByEmail(String email);
 }
