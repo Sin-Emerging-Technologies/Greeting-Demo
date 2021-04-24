@@ -3,7 +3,7 @@ Description: Deploy a service on AWS Fargate, hosted in a private subnet, but ac
 Parameters:
   EnvironmentName:
     Type: String
-    Default: development
+    Default: prod
     Description: The name of the environment to add this service to
   ServiceName:
     Type: String
@@ -35,7 +35,7 @@ Parameters:
                  traffic to this service.
   Domain:
     Type: String
-    Default: "greeting.sinemergingtechnologies.com"
+    Default: "prod-greeting.sinemergingtechnologies.com"
 
   Priority:
     Type: Number
