@@ -29,7 +29,7 @@ public class ProviderController {
             "email",
             "city",
             "us_state",
-            "pass",
+            "password",
             "confirm",
             "provider_type"
     );
@@ -66,7 +66,7 @@ public class ProviderController {
         Provider providerWithEmail = providers.get(0);
         System.out.println(providerWithEmail.toString());
 
-        if (!loginAttempt.getPass().equals(providerWithEmail.getPass())) {
+        if (!loginAttempt.getPassword().equals(providerWithEmail.getPassword())) {
             System.out.println("Error - invalid password");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleProvider);
         }
@@ -128,7 +128,7 @@ public class ProviderController {
         preUpdateProvider.setEmail(providerToUpdate.getEmail());
         preUpdateProvider.setCity(providerToUpdate.getCity());
         preUpdateProvider.setUs_state(providerToUpdate.getUs_state());
-        preUpdateProvider.setPass(providerToUpdate.getPass());
+        preUpdateProvider.setPassword(providerToUpdate.getPassword());
         preUpdateProvider.setConfirm(providerToUpdate.getConfirm());
 
         Provider updatedProvider = providerService.save(preUpdateProvider);

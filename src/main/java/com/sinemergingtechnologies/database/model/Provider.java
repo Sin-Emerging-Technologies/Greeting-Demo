@@ -21,7 +21,8 @@ public class Provider {
     private @NonNull String email;
     private @NonNull String city;
     private @NonNull String us_state;
-    private @NonNull String pass;
+    @Column(name="pass")
+    private @NonNull String password;
     private @NonNull String confirm;
     private @NonNull String provider_type;
 

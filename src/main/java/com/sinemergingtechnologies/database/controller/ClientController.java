@@ -37,7 +37,7 @@ public class ClientController {
             "email",
             "city",
             "us_state",
-            "pass",
+            "password",
             "confirm"
     );
 
@@ -67,7 +67,7 @@ public class ClientController {
        Client clientWithEmail = clients.get(0);
        System.out.println(clientWithEmail.toString());
 
-       if (!loginAttempt.getPass().equals(clientWithEmail.getPass())) {
+       if (!loginAttempt.getPassword().equals(clientWithEmail.getPassword())) {
            System.out.println("Error - invalid password");
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleClient);
        }
@@ -150,7 +150,7 @@ public class ClientController {
         preUpdateClient.setEmail(clientToUpdate.getEmail());
         preUpdateClient.setCity(clientToUpdate.getCity());
         preUpdateClient.setUs_state(clientToUpdate.getUs_state());
-        preUpdateClient.setPass(clientToUpdate.getPass());
+        preUpdateClient.setPassword(clientToUpdate.getPassword());
         preUpdateClient.setConfirm(clientToUpdate.getConfirm());
 
         Client updatedClient = clientService.save(preUpdateClient);

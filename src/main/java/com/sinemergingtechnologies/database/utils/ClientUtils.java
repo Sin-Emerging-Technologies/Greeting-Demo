@@ -33,11 +33,11 @@ public class ClientUtils {
         if (clientUnderTest.getClient_uuid() instanceof UUID == false) return false;
         if (clientUnderTest.getClient_uuid().toString().length() < minStringLength) return false;
 
-        if (clientUnderTest.getPass() instanceof String == false) return false;
+        if (clientUnderTest.getPassword() instanceof String == false) return false;
         if (clientUnderTest.getConfirm() instanceof String == false) return false;
 
-        if (clientUnderTest.getPass().length() < minPasswordLength) return false;
-        if (!Objects.equals(clientUnderTest.getPass(), clientUnderTest.getConfirm())) return false;
+        if (clientUnderTest.getPassword().length() < minPasswordLength) return false;
+        if (!Objects.equals(clientUnderTest.getPassword(), clientUnderTest.getConfirm())) return false;
 
         return true;
     }

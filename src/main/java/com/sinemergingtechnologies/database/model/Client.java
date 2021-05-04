@@ -20,7 +20,8 @@ public class Client {
     private @NonNull String email;
     private @NonNull String city;
     private @NonNull String us_state;
-    private @NonNull String pass;
+    @Column(name="pass")
+    private @NonNull String password;
     private @NonNull String confirm;
 
     @Override
@@ -50,7 +51,7 @@ public class Client {
         "\n, email: " + this.getEmail() +
         "\n, city: " + this.getCity() +
         "\n, us_state: " + this.getUs_state() +
-        "\n, pass: " + this.getPass() +
+        "\n, password: " + this.getPassword() +
         "\n, confirm: " + this.getConfirm();
     }
 

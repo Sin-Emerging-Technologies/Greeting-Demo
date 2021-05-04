@@ -12,7 +12,7 @@ import java.util.UUID;
 public class LoginAttempt {
 
     private @NonNull String email;
-    private @NonNull String pass;
+    private @NonNull String password;
     private @NonNull String role;
 
     @Override
@@ -35,7 +35,7 @@ public class LoginAttempt {
     }
 
     public String toString() {
-        return "email: " + this.getEmail() + "\npass: " + this.getPass() + "\nrole: " + this.getRole();
+        return "email: " + this.getEmail() + "\npassword: " + this.getPassword() + "\nrole: " + this.getRole();
     }
 
     @Override

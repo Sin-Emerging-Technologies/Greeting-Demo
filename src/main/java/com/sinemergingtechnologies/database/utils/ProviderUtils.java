@@ -33,11 +33,11 @@ public class ProviderUtils {
         if (providerUnderTest.getProvider_uuid() instanceof UUID == false) return false;
         if (providerUnderTest.getProvider_uuid().toString().length() < minStringLength) return false;
 
-        if (providerUnderTest.getPass() instanceof String == false) return false;
+        if (providerUnderTest.getPassword() instanceof String == false) return false;
         if (providerUnderTest.getConfirm() instanceof String == false) return false;
 
-        if (providerUnderTest.getPass().length() < minPasswordLength) return false;
-        if (!Objects.equals(providerUnderTest.getPass(), providerUnderTest.getConfirm())) return false;
+        if (providerUnderTest.getPassword().length() < minPasswordLength) return false;
+        if (!Objects.equals(providerUnderTest.getPassword(), providerUnderTest.getConfirm())) return false;
 
         return true;
     }
