@@ -21,6 +21,7 @@ import static com.sinemergingtechnologies.database.utils.ProviderUtils.validProv
 import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/primaryprovidermap")
 public class PrimaryProviderMapController {
 

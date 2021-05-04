@@ -20,7 +20,8 @@ public class Client {
     private @NonNull String email;
     private @NonNull String city;
     private @NonNull String us_state;
-    private @NonNull String pass;
+    @Column(name="pass")
+    private @NonNull String password;
     private @NonNull String confirm;
 
     @Override
@@ -40,6 +41,18 @@ public class Client {
         System.out.println(this.getEmail() + ":" + other.getEmail());
 
         return this.getId().equals(other.getId());
+    }
+
+    public String toString() {
+        return "id: " + this.getId() +
+        "\n, client_uuid: " + this.getClient_uuid() +
+        "\n, firstname: " + this.getFirstname() +
+        "\n, lastname: " + this.getLastname() +
+        "\n, email: " + this.getEmail() +
+        "\n, city: " + this.getCity() +
+        "\n, us_state: " + this.getUs_state() +
+        "\n, password: " + this.getPassword() +
+        "\n, confirm: " + this.getConfirm();
     }
 
     @Override

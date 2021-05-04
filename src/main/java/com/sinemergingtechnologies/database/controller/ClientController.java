@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.LoginAttempt;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
 import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IClientService;
@@ -14,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/clients")
 public class ClientController {
 
@@ -35,7 +38,7 @@ public class ClientController {
             "email",
             "city",
             "us_state",
-            "pass",
+            "password",
             "confirm"
     );
 
@@ -43,18 +46,37 @@ public class ClientController {
     @GetMapping("/")
     private List<Client> getClients(@RequestParam(value = "name", defaultValue = "World") String name) {
         List<Client> clients = (List<Client>) clientService.findAll();
-        if (clients.size() > 0) {
-            Client firstClient = (Client) clients.get(0);
-            System.out.println(firstClient.toString());
-            System.out.println(firstClient.hashCode());
-            System.out.println(firstClient.equals(firstClient));
-            System.out.println(sampleClient.equals(firstClient));
-        } else {
+        if (clients.size() < 1) {
             System.out.println("no clients found");
         }
 
         return clients;
     }
+
+   @PostMapping("/login")
+   private ResponseEntity attemptLogin(@RequestBody LoginAttempt loginAttempt) {
+       System.out.println("fake client login attempt");
+       System.out.println(loginAttempt.toString());
+
+       List<Client> clients = (List<Client>) clientService.findByEmail(loginAttempt.getEmail());
+
+       if (clients.size() < 1 || clients.size() > 1) {
+           System.out.println("Error - Expected 1 client but found " + clients.size());
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(sampleClient);
+       }
+
+       Client clientWithEmail = clients.get(0);
+       System.out.println(clientWithEmail.toString());
+
+       String candidate_password = loginAttempt.getPassword();
+       String stored_hash = clientWithEmail.getPassword();
+       if (!BCrypt.checkpw(candidate_password, stored_hash)) {
+           System.out.println("Error - invalid password");
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleClient);
+       }
+        // need to implement a session token and timeout
+      return ResponseEntity.ok(clientWithEmail);
+   }
 
     @PostMapping("/")
     private ResponseEntity<Client> newClient(@RequestBody Client newClient) {
@@ -62,6 +84,13 @@ public class ClientController {
 
         if (!validClient(newClient)) {
             return ResponseEntity.badRequest().build();
+        }
+
+        List<Client> existingClients = clientService.findByEmail(newClient.getEmail());
+
+        if (existingClients.size() > 0) {
+            System.out.println("Client entry already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         Client createdClient = clientService.save(newClient);
@@ -131,7 +160,7 @@ public class ClientController {
         preUpdateClient.setEmail(clientToUpdate.getEmail());
         preUpdateClient.setCity(clientToUpdate.getCity());
         preUpdateClient.setUs_state(clientToUpdate.getUs_state());
-        preUpdateClient.setPass(clientToUpdate.getPass());
+        preUpdateClient.setPassword(clientToUpdate.getPassword());
         preUpdateClient.setConfirm(clientToUpdate.getConfirm());
 
         Client updatedClient = clientService.save(preUpdateClient);
