@@ -86,6 +86,13 @@ public class ClientController {
             return ResponseEntity.badRequest().build();
         }
 
+        List<Client> existingClients = clientService.findByEmail(newClient.getEmail());
+
+        if (existingClients.size() > 0) {
+            System.out.println("Client entry already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         Client createdClient = clientService.save(newClient);
 
         if (!validClient(createdClient)) {
