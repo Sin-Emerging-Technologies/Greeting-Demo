@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
@@ -67,11 +68,13 @@ public class ClientController {
        Client clientWithEmail = clients.get(0);
        System.out.println(clientWithEmail.toString());
 
-       if (!loginAttempt.getPassword().equals(clientWithEmail.getPassword())) {
+       String candidate_password = loginAttempt.getPassword();
+       String stored_hash = clientWithEmail.getPassword();
+       if (!BCrypt.checkpw(candidate_password, stored_hash)) {
            System.out.println("Error - invalid password");
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleClient);
        }
-
+        // need to implement a session token and timeout
       return ResponseEntity.ok(clientWithEmail);
    }
 
