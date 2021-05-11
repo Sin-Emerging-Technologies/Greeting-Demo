@@ -1,7 +1,6 @@
 package com.sinemergingtechnologies.database.service;
 
 import com.sinemergingtechnologies.database.model.User;
-import com.sinemergingtechnologies.database.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,32 +8,32 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientService implements IClientService {
+public class UserRepository implements IUserRepository {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private com.sinemergingtechnologies.database.repository.UserRepository userRepository;
 
     @Override
     public List<User> findAll() {
-        return (List<User>) clientRepository.findAll();
+        return (List<User>) userRepository.findAll();
     }
 
     @Override
     public User save(User user) {
-        return (User) clientRepository.save(user);
+        return (User) userRepository.save(user);
     }
 
     @Override
     public Optional<User> findById(Long id) {
-        return clientRepository.findById(id);
+        return userRepository.findById(id);
     }
     @Override
     public void deleteById(Long id) {
-        clientRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public List<User> findByEmail(String email) {
-        return clientRepository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 }

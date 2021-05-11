@@ -5,7 +5,7 @@ import com.sinemergingtechnologies.database.model.User;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ClientUtils {
+public class UserUtils {
 
     private static int minStringLength = 1;
     private static int minPasswordLength = 4;

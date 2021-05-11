@@ -7,7 +7,7 @@ import java.util.UUID;
 import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
 import com.sinemergingtechnologies.database.model.Provider;
-import com.sinemergingtechnologies.database.service.IClientService;
+import com.sinemergingtechnologies.database.service.IUserRepository;
 import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
 
 import com.sinemergingtechnologies.database.service.IProviderService;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 import static com.sinemergingtechnologies.database.utils.ProviderUtils.validProvider;
-import static com.sinemergingtechnologies.database.utils.ClientUtils.validUser;
+import static com.sinemergingtechnologies.database.utils.UserUtils.validUser;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -28,7 +28,7 @@ public class PrimaryProviderMapController {
     @Autowired
     private IPrimaryProviderMapService primaryProviderMapService;
     @Autowired
-    private IClientService clientService;
+    private IUserRepository userService;
     @Autowired
     private IProviderService providerService;
 
@@ -61,7 +61,7 @@ public class PrimaryProviderMapController {
         }
 
         Optional<Provider> provider = providerService.findById(newPrimaryProviderMap.getProvider_id());
-        Optional<User> user = clientService.findById(newPrimaryProviderMap.getId());
+        Optional<User> user = userService.findById(newPrimaryProviderMap.getId());
 
         if (
             !user.isPresent() ||
