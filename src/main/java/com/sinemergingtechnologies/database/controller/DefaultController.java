@@ -17,7 +17,12 @@ public class DefaultController {
     @GetMapping("/testobj/{id}")
     public String testObj(@RequestParam(value = "name", defaultValue = "World") String name,
                           @PathVariable("id") String idString) {
+        if (idString.equalsIgnoreCase("1")) {
+            return UUID.randomUUID().toString();
+        }
+
         Long id = UUID.fromString(idString).getMostSignificantBits() & Long.MAX_VALUE;
+
         return id.toString();
     }
 }
