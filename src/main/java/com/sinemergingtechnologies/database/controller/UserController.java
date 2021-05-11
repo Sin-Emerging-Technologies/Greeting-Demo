@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.LoginAttempt;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
-import com.sinemergingtechnologies.database.service.IUserRepository;
+import com.sinemergingtechnologies.database.service.IUserService;
 
 import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils
 public class UserController {
 
     @Autowired
-    private IUserRepository userService;
+    private IUserService userService;
     @Autowired
     private IPrimaryProviderMapService primaryProviderMapService;
 
