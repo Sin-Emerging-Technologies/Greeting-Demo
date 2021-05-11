@@ -2,9 +2,6 @@ package com.sinemergingtechnologies.database.model;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.UUID;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,11 +17,11 @@ public class LoginAttempt {
         if (this == o) return true;
         System.out.println("this != o");
 
-        if (!(o instanceof Client))
+        if (!(o instanceof User))
             return false;
-        System.out.println("(o instanceof Client)");
+        System.out.println("(o instanceof User)");
 
-        Client other = (Client) o;
+        User other = (User) o;
 
         if (this.getEmail() == null) return false;
         System.out.println("this.getEmail() != null");

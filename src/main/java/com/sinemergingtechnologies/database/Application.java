@@ -22,7 +22,7 @@ public class Application {
 //				String reactAppUrl = "http://localhost:3000";
 //
 //				registry.addMapping("/test").allowedOrigins(reactAppUrl);
-//				registry.addMapping("/clients/").allowedOrigins(reactAppUrl);
+//				registry.addMapping("/users/").allowedOrigins(reactAppUrl);
 //				registry.addMapping("/providers/").allowedOrigins(reactAppUrl);
 //				registry.addMapping("/primaryprovidermap/").allowedOrigins(reactAppUrl);
 //			}

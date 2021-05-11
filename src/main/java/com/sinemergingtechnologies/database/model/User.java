@@ -10,11 +10,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "users")
+public class User {
 
-    private UUID client_uuid = UUID.randomUUID();
-    private @Id Long id = client_uuid.getMostSignificantBits() & Long.MAX_VALUE;
+    private UUID uuid = UUID.randomUUID();
+    private @Id Long id = uuid.getMostSignificantBits() & Long.MAX_VALUE;
     private @NonNull String firstname;
     private @NonNull String lastname;
     private @NonNull String email;
@@ -29,11 +29,11 @@ public class Client {
         if (this == o) return true;
         System.out.println("this != o");
 
-        if (!(o instanceof Client))
+        if (!(o instanceof User))
             return false;
-        System.out.println("(o instanceof Client)");
+        System.out.println("(o instanceof User)");
 
-        Client other = (Client) o;
+        User other = (User) o;
 
         if (this.getId() == null) return false;
         System.out.println("this.getId() != null");
@@ -45,7 +45,7 @@ public class Client {
 
     public String toString() {
         return "id: " + this.getId() +
-        "\n, client_uuid: " + this.getClient_uuid() +
+        "\n, uuid: " + this.getUuid() +
         "\n, firstname: " + this.getFirstname() +
         "\n, lastname: " + this.getLastname() +
         "\n, email: " + this.getEmail() +

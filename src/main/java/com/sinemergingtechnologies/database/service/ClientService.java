@@ -1,6 +1,6 @@
 package com.sinemergingtechnologies.database.service;
 
-import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ public class ClientService implements IClientService {
     private ClientRepository clientRepository;
 
     @Override
-    public List<Client> findAll() {
-        return (List<Client>) clientRepository.findAll();
+    public List<User> findAll() {
+        return (List<User>) clientRepository.findAll();
     }
 
     @Override
-    public Client save(Client client) {
-        return (Client) clientRepository.save(client);
+    public User save(User user) {
+        return (User) clientRepository.save(user);
     }
 
     @Override
-    public Optional<Client> findById(Long id) {
+    public Optional<User> findById(Long id) {
         return clientRepository.findById(id);
     }
     @Override
@@ -34,7 +34,7 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public List<Client> findByEmail(String email) {
+    public List<User> findByEmail(String email) {
         return clientRepository.findByEmail(email);
     }
 }

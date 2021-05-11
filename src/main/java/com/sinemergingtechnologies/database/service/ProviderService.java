@@ -1,6 +1,5 @@
 package com.sinemergingtechnologies.database.service;
 
-import com.sinemergingtechnologies.database.model.Client;
 import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;

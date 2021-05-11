@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
 import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IClientService;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 import static com.sinemergingtechnologies.database.utils.ProviderUtils.validProvider;
-import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
+import static com.sinemergingtechnologies.database.utils.ClientUtils.validUser;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -42,14 +42,14 @@ public class PrimaryProviderMapController {
     //    These paths are case-sensitive it appears
     @GetMapping("/")
     private List<PrimaryProviderMap> getPrimaryProviderMaps(@RequestParam(value = "name", defaultValue = "World") String name) {
-        List<PrimaryProviderMap> clients = (List<PrimaryProviderMap>) primaryProviderMapService.findAll();
-        if (clients.size() > 0) {
-            // PrimaryProviderMap firstPrimaryProviderMap = (PrimaryProviderMap) clients.get(0);
+        List<PrimaryProviderMap> primaryProviderMaps = (List<PrimaryProviderMap>) primaryProviderMapService.findAll();
+        if (primaryProviderMaps.size() > 0) {
+            // PrimaryProviderMap firstPrimaryProviderMap = (PrimaryProviderMap) primaryProviderMaps.get(0);
         }
 
-        System.out.println("Found " + clients.size() + " PrimaryProviderMaps");
+        System.out.println("Found " + primaryProviderMaps.size() + " PrimaryProviderMaps");
 
-        return clients;
+        return primaryProviderMaps;
     }
 
     @PostMapping("/")
@@ -61,12 +61,12 @@ public class PrimaryProviderMapController {
         }
 
         Optional<Provider> provider = providerService.findById(newPrimaryProviderMap.getProvider_id());
-        Optional<Client> client = clientService.findById(newPrimaryProviderMap.getId());
+        Optional<User> user = clientService.findById(newPrimaryProviderMap.getId());
 
         if (
-            !client.isPresent() ||
+            !user.isPresent() ||
             !provider.isPresent() ||
-            !validClient(client.get()) ||
+            !validUser(user.get()) ||
             !validProvider(provider.get())
         ) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -100,7 +100,7 @@ public class PrimaryProviderMapController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<PrimaryProviderMap> updatePrimaryProviderMap(@RequestBody PrimaryProviderMap clientToUpdate, @PathVariable Long id) {
+    private ResponseEntity<PrimaryProviderMap> updatePrimaryProviderMap(@RequestBody PrimaryProviderMap primaryProviderMapToUpdate, @PathVariable Long id) {
         System.out.println("Updating PrimaryProviderMap with id " + id + ".");
 
         if(id == null || id < 1) {
@@ -115,10 +115,10 @@ public class PrimaryProviderMapController {
 
         PrimaryProviderMap preUpdatePrimaryProviderMap = foundSinglePrimaryProviderMap.get();
 
-        preUpdatePrimaryProviderMap.setClient_uuid(clientToUpdate.getClient_uuid());
-        preUpdatePrimaryProviderMap.setId(clientToUpdate.getId());
-        preUpdatePrimaryProviderMap.setProvider_uuid(clientToUpdate.getProvider_uuid());
-        preUpdatePrimaryProviderMap.setProvider_id(clientToUpdate.getProvider_id());
+        preUpdatePrimaryProviderMap.setClient_uuid(primaryProviderMapToUpdate.getClient_uuid());
+        preUpdatePrimaryProviderMap.setId(primaryProviderMapToUpdate.getId());
+        preUpdatePrimaryProviderMap.setProvider_uuid(primaryProviderMapToUpdate.getProvider_uuid());
+        preUpdatePrimaryProviderMap.setProvider_id(primaryProviderMapToUpdate.getProvider_id());
 
         PrimaryProviderMap updatedPrimaryProviderMap = primaryProviderMapService.save(preUpdatePrimaryProviderMap);
 
@@ -127,7 +127,7 @@ public class PrimaryProviderMapController {
 
     @DeleteMapping("/{id}")
     private ResponseEntity deletePrimaryProviderMap(@PathVariable Long id) {
-        System.out.println("PrimaryProviderMap client with id " + id + ".");
+        System.out.println("PrimaryProviderMap with id " + id + ".");
         primaryProviderMapService.deleteById(id);
 
         Optional<PrimaryProviderMap> foundSinglePrimaryProviderMap = primaryProviderMapService.findById(id);

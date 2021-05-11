@@ -3,7 +3,7 @@ package com.sinemergingtechnologies.database.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.sinemergingtechnologies.database.model.Client;
+import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.LoginAttempt;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
 import com.sinemergingtechnologies.database.model.Provider;
@@ -17,12 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import static com.sinemergingtechnologies.database.utils.ClientUtils.validClient;
+import static com.sinemergingtechnologies.database.utils.ClientUtils.validUser;
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/clients")
+@RequestMapping("/users")
 public class ClientController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class ClientController {
     @Autowired
     private IPrimaryProviderMapService primaryProviderMapService;
 
-    private Client sampleClient = new Client(
+    private User sampleUser = new User(
             "firstname",
             "lastname",
             "email",
@@ -44,58 +44,58 @@ public class ClientController {
 
 //    These paths are case-sensitive it appears
     @GetMapping("/")
-    private List<Client> getClients(@RequestParam(value = "name", defaultValue = "World") String name) {
-        List<Client> clients = (List<Client>) clientService.findAll();
-        if (clients.size() < 1) {
-            System.out.println("no clients found");
+    private List<User> getUsers(@RequestParam(value = "name", defaultValue = "World") String name) {
+        List<User> users = (List<User>) clientService.findAll();
+        if (users.size() < 1) {
+            System.out.println("no users found");
         }
 
-        return clients;
+        return users;
     }
 
    @PostMapping("/login")
    private ResponseEntity attemptLogin(@RequestBody LoginAttempt loginAttempt) {
-       System.out.println("fake client login attempt");
+       System.out.println("fake user login attempt");
        System.out.println(loginAttempt.toString());
 
-       List<Client> clients = (List<Client>) clientService.findByEmail(loginAttempt.getEmail());
+       List<User> users = (List<User>) clientService.findByEmail(loginAttempt.getEmail());
 
-       if (clients.size() < 1 || clients.size() > 1) {
-           System.out.println("Error - Expected 1 client but found " + clients.size());
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(sampleClient);
+       if (users.size() < 1 || users.size() > 1) {
+           System.out.println("Error - Expected 1 user but found " + users.size());
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(sampleUser);
        }
 
-       Client clientWithEmail = clients.get(0);
-       System.out.println(clientWithEmail.toString());
+       User userWithEmail = users.get(0);
+       System.out.println(userWithEmail.toString());
 
        String candidate_password = loginAttempt.getPassword();
-       String stored_hash = clientWithEmail.getPassword();
+       String stored_hash = userWithEmail.getPassword();
        if (!BCrypt.checkpw(candidate_password, stored_hash)) {
            System.out.println("Error - invalid password");
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleClient);
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(sampleUser);
        }
         // need to implement a session token and timeout
-      return ResponseEntity.ok(clientWithEmail);
+      return ResponseEntity.ok(userWithEmail);
    }
 
     @PostMapping("/")
-    private ResponseEntity<Client> newClient(@RequestBody Client newClient) {
-        System.out.println("Attempting to create new client");
+    private ResponseEntity<User> createNewUser(@RequestBody User newUser) {
+        System.out.println("Attempting to create new user");
 
-        if (!validClient(newClient)) {
+        if (!validUser(newUser)) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Client> existingClients = clientService.findByEmail(newClient.getEmail());
+        List<User> existingUsers = clientService.findByEmail(newUser.getEmail());
 
-        if (existingClients.size() > 0) {
-            System.out.println("Client entry already exists");
+        if (existingUsers.size() > 0) {
+            System.out.println("User entry already exists");
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        Client createdClient = clientService.save(newClient);
+        User createdUser = clientService.save(newUser);
 
-        if (!validClient(createdClient)) {
+        if (!validUser(createdUser)) {
             return ResponseEntity.notFound().build();
         }
 
@@ -104,8 +104,8 @@ public class ClientController {
 
         int randomIndex = (int) Math.floor(Math.random()*providers.size());
         PrimaryProviderMap map = new PrimaryProviderMap(
-                newClient.getClient_uuid(),
-                newClient.getId(),
+                newUser.get_uuid(),
+                newUser.getId(),
                 providers.get(randomIndex).getProvider_uuid(),
                 providers.get(randomIndex).getId()
         );
@@ -115,67 +115,67 @@ public class ClientController {
         if (!validPrimaryProviderMap(savedMap)) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(createdClient);
+                    .body(createdUser);
         }
 
-        return ResponseEntity.ok(createdClient);
+        return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Client> getSingleClient(@PathVariable("id") Long id) {
-        System.out.println("Searching for client with id " + id + ".");
+    private ResponseEntity<User> getSingleUser(@PathVariable("id") Long id) {
+        System.out.println("Searching for user with id " + id + ".");
 
         if(id == null || id < 1) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Client> foundSingleClient = clientService.findById(id);
+        Optional<User> foundSingleUser = clientService.findById(id);
 
-        if (!foundSingleClient.isPresent()) {
+        if (!foundSingleUser.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(foundSingleClient.get());
+        return ResponseEntity.ok(foundSingleUser.get());
 
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<Client> updateClient(@RequestBody Client clientToUpdate, @PathVariable Long id) {
-        System.out.println("Updating client with id " + id + ".");
+    private ResponseEntity<User> updateUser(@RequestBody User userToUpdate, @PathVariable Long id) {
+        System.out.println("Updating user with id " + id + ".");
 
         if(id == null || id < 1) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Client> foundSingleClient = clientService.findById(id);
+        Optional<User> foundSingleUser = clientService.findById(id);
 
-        if (!foundSingleClient.isPresent()) {
+        if (!foundSingleUser.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
-        Client preUpdateClient = foundSingleClient.get();
+        User preUpdateUser = foundSingleUser.get();
 
-        preUpdateClient.setFirstname(clientToUpdate.getFirstname());
-        preUpdateClient.setLastname(clientToUpdate.getLastname());
-        preUpdateClient.setEmail(clientToUpdate.getEmail());
-        preUpdateClient.setCity(clientToUpdate.getCity());
-        preUpdateClient.setUs_state(clientToUpdate.getUs_state());
-        preUpdateClient.setPassword(clientToUpdate.getPassword());
-        preUpdateClient.setConfirm(clientToUpdate.getConfirm());
+        preUpdateUser.setFirstname(userToUpdate.getFirstname());
+        preUpdateUser.setLastname(userToUpdate.getLastname());
+        preUpdateUser.setEmail(userToUpdate.getEmail());
+        preUpdateUser.setCity(userToUpdate.getCity());
+        preUpdateUser.setUs_state(userToUpdate.getUs_state());
+        preUpdateUser.setPassword(userToUpdate.getPassword());
+        preUpdateUser.setConfirm(userToUpdate.getConfirm());
 
-        Client updatedClient = clientService.save(preUpdateClient);
+        User updatedUser = clientService.save(preUpdateUser);
 
-        return ResponseEntity.ok(updatedClient);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity deleteClient(@PathVariable Long id) {
-        System.out.println("Deleting client with id " + id + ".");
+    private ResponseEntity deleteUser(@PathVariable Long id) {
+        System.out.println("Deleting user with id " + id + ".");
         clientService.deleteById(id);
 
-        Optional<Client> foundSingleClient = clientService.findById(id);
+        Optional<User> foundSingleUser = clientService.findById(id);
 
-        if (foundSingleClient.isPresent()) {
+        if (foundSingleUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
         }
 
