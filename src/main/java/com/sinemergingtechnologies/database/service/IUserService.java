@@ -5,7 +5,7 @@ import com.sinemergingtechnologies.database.model.User;
 import java.util.List;
 import java.util.Optional;
 
-public abstract interface IUserRepository {
+public abstract interface IUserService {
 
     abstract List<User> findAll();
     abstract User save(User user);
