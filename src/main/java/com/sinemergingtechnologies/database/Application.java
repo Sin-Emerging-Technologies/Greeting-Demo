@@ -23,7 +23,6 @@ public class Application {
 //
 //				registry.addMapping("/test").allowedOrigins(reactAppUrl);
 //				registry.addMapping("/users/").allowedOrigins(reactAppUrl);
-//				registry.addMapping("/providers/").allowedOrigins(reactAppUrl);
 //				registry.addMapping("/primaryprovidermap/").allowedOrigins(reactAppUrl);
 //			}
 //		};

@@ -6,18 +6,15 @@ import java.util.UUID;
 
 import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
-import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IUserRepository;
 import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
 
-import com.sinemergingtechnologies.database.service.IProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
-import static com.sinemergingtechnologies.database.utils.ProviderUtils.validProvider;
 import static com.sinemergingtechnologies.database.utils.UserUtils.validUser;
 
 @RestController
@@ -29,8 +26,6 @@ public class PrimaryProviderMapController {
     private IPrimaryProviderMapService primaryProviderMapService;
     @Autowired
     private IUserRepository userService;
-    @Autowired
-    private IProviderService providerService;
 
     private PrimaryProviderMap samplePrimaryProviderMap = new PrimaryProviderMap(
             UUID.fromString("88888888-4444-4444-4444-bbbbbbbbbbbb"),
@@ -60,14 +55,14 @@ public class PrimaryProviderMapController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Provider> provider = providerService.findById(newPrimaryProviderMap.getProvider_id());
-        Optional<User> user = userService.findById(newPrimaryProviderMap.getId());
+        Optional<User> provider = userService.findById(newPrimaryProviderMap.getProvider_id());
+        Optional<User> client = userService.findById(newPrimaryProviderMap.getId());
 
         if (
-            !user.isPresent() ||
+            !client.isPresent() ||
             !provider.isPresent() ||
-            !validUser(user.get()) ||
-            !validProvider(provider.get())
+            !validUser(client.get()) ||
+            !validUser(provider.get())
         ) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

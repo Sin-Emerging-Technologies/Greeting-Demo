@@ -6,11 +6,9 @@ import java.util.Optional;
 import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.LoginAttempt;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
-import com.sinemergingtechnologies.database.model.Provider;
 import com.sinemergingtechnologies.database.service.IUserRepository;
 
 import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
-import com.sinemergingtechnologies.database.service.IProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +25,6 @@ public class UserController {
 
     @Autowired
     private IUserRepository userService;
-    @Autowired
-    private IProviderService providerService;
     @Autowired
     private IPrimaryProviderMapService primaryProviderMapService;
 
@@ -99,24 +95,26 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        // get list of providers
-        List<Provider> providers = providerService.findAll();
+        // // get list of providers
+        // List<User> providers = userService.findAll();
+        // now filter against Roles table for only providers
+        // List<Roles> roles = roleService.findAll();
 
-        int randomIndex = (int) Math.floor(Math.random()*providers.size());
-        PrimaryProviderMap map = new PrimaryProviderMap(
-                newUser.getUuid(),
-                newUser.getId(),
-                providers.get(randomIndex).getProvider_uuid(),
-                providers.get(randomIndex).getId()
-        );
+        // int randomIndex = (int) Math.floor(Math.random()*providers.size());
+        // PrimaryProviderMap map = new PrimaryProviderMap(
+        //         newUser.getUuid(),
+        //         newUser.getId(),
+        //         providers.get(randomIndex).getUuid(),
+        //         providers.get(randomIndex).getId()
+        // );
 
-        PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
+        // PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
 
-        if (!validPrimaryProviderMap(savedMap)) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(createdUser);
-        }
+        // if (!validPrimaryProviderMap(savedMap)) {
+        //     return ResponseEntity
+        //             .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        //             .body(createdUser);
+        // }
 
         return ResponseEntity.ok(createdUser);
     }
