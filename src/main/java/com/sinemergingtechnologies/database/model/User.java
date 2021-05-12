@@ -22,7 +22,6 @@ public class User {
     private @NonNull String us_state;
     @Column(name="pass")
     private @NonNull String password;
-    private @NonNull String confirm;
 
     @Override
     public boolean equals(Object o) {
@@ -51,8 +50,7 @@ public class User {
         "\n, email: " + this.getEmail() +
         "\n, city: " + this.getCity() +
         "\n, us_state: " + this.getUs_state() +
-        "\n, password: " + this.getPassword() +
-        "\n, confirm: " + this.getConfirm();
+        "\n, password: " + this.getPassword();
     }
 
     @Override

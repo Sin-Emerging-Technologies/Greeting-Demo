@@ -82,16 +82,9 @@ public class UserUtils {
             System.out.println("(userUnderTest.getPassword() instanceof String == false)");
             return false;
         }
-        if (userUnderTest.getConfirm() instanceof String == false) {
-            System.out.println("(userUnderTest.getConfirm() instanceof String == false)");
-            return false;
-        }
 
         if (userUnderTest.getPassword().length() < minPasswordLength) {
             System.out.println("(userUnderTest.getPassword().length() < minPasswordLength)");
-            return false;
-        }
-        if (!Objects.equals(userUnderTest.getPassword(), userUnderTest.getConfirm())) {
             return false;
         }
 

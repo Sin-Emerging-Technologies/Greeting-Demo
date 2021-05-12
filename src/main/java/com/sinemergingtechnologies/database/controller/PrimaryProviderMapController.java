@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import com.sinemergingtechnologies.database.model.User;
 import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
-import com.sinemergingtechnologies.database.service.IUserRepository;
+import com.sinemergingtechnologies.database.service.IUserService;
 import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class PrimaryProviderMapController {
     @Autowired
     private IPrimaryProviderMapService primaryProviderMapService;
     @Autowired
-    private IUserRepository userService;
+    private IUserService userService;
 
     private PrimaryProviderMap samplePrimaryProviderMap = new PrimaryProviderMap(
             UUID.fromString("88888888-4444-4444-4444-bbbbbbbbbbbb"),

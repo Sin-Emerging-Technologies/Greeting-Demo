@@ -34,8 +34,7 @@ public class UserController {
             "email",
             "city",
             "us_state",
-            "password",
-            "confirm"
+            "password"
     );
 
 //    These paths are case-sensitive it appears
@@ -159,7 +158,6 @@ public class UserController {
         preUpdateUser.setCity(userToUpdate.getCity());
         preUpdateUser.setUs_state(userToUpdate.getUs_state());
         preUpdateUser.setPassword(userToUpdate.getPassword());
-        preUpdateUser.setConfirm(userToUpdate.getConfirm());
 
         User updatedUser = userService.save(preUpdateUser);
 
