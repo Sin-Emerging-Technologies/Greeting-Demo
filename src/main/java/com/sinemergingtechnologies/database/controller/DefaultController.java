@@ -14,7 +14,7 @@ public class DefaultController {
         return "hello DefaultController";
     }
 
-    @GetMapping("/testobj/{id}")
+    @GetMapping("/uuid/{id}")
     public String testObj(@RequestParam(value = "name", defaultValue = "World") String name,
                           @PathVariable("id") String idString) {
         if (idString.equalsIgnoreCase("1")) {
