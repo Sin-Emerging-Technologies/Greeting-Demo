@@ -13,8 +13,7 @@ import java.util.UUID;
 @Table(name = "roles")
 public class Role {
 
-    private UUID uuid = UUID.randomUUID();
-    private @Id Long id = uuid.getMostSignificantBits() & Long.MAX_VALUE;
+    private @Id Long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
     private @NonNull String roleTitle;
 
     @Override
@@ -38,7 +37,6 @@ public class Role {
 
     public String toString() {
         return "id: " + this.getId() +
-                "\n, uuid: " + this.getUuid() +
                 "\n, role title: " + this.getRoleTitle();
     }
 

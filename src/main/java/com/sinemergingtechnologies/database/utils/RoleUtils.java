@@ -17,14 +17,6 @@ public class RoleUtils {
             System.out.println("(roleUnderTest.getId() < minStringLength)");
             return false;
         }
-        if (roleUnderTest.getUuid() instanceof UUID == false) {
-            System.out.println("(roleUnderTest.getUuid() instanceof UUID == false)");
-            return false;
-        }
-        if (roleUnderTest.getUuid().toString().length() < minStringLength) {
-            System.out.println("(roleUnderTest.getUuid().toString().length() < minStringLength)");
-            return false;
-        }
 
         if (roleUnderTest.getRoleTitle() instanceof String == false) {
             System.out.println("(roleUnderTest.getRoleTitle() instanceof String == false)");
