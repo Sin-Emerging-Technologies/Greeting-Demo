@@ -7,7 +7,6 @@ import java.util.UUID;
 public class RoleUtils {
 
     private static int minStringLength = 1;
-    private static int minPasswordLength = 4;
 
     public static boolean validRole(Role roleUnderTest) {
         if (roleUnderTest.getId() instanceof Long == false) {

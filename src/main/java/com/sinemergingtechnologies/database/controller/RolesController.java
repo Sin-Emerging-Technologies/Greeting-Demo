@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.sinemergingtechnologies.database.model.Role;
 
-import com.sinemergingtechnologies.database.service.IRoleService;
+import com.sinemergingtechnologies.database.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import static com.sinemergingtechnologies.database.utils.RoleUtils.validRole;
 public class RolesController {
 
     @Autowired
-    private IRoleService roleService;
+    private RoleService roleService;
 
     private Role sampleRole = new Role("sampleRoleTitle");
 

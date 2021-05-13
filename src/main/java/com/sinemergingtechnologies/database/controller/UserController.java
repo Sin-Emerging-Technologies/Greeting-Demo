@@ -94,7 +94,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        // // get list of providers
+        // get list of providers
         // List<User> providers = userService.findAll();
         // now filter against Roles table for only providers
         // List<Roles> roles = roleService.findAll();
