@@ -18,7 +18,10 @@ public class StartupUtils {
         System.out.println("Comparing internal enums with database");
 
         List<Role> rolesInDb = roleService.findAll();
-        Object[] rolesInDbStrings = rolesInDb.toArray();
+        String[] rolesInDbStrings = new String[rolesInDb.size()];
+        for(int i = 0; i < rolesInDb.size(); i++) {
+            rolesInDbStrings[i] = rolesInDb.get(i).getRoleTitle();
+        }
 
         // for each enum we have
         Enums.RoleTitles[] enumRoleTitles = Enums.RoleTitles.values();
@@ -38,8 +41,8 @@ public class StartupUtils {
         }
     }
 
-    private boolean arrayContainsObject(Object[] testArray, String target) {
-        for(Object x : testArray){
+    private boolean arrayContainsObject(String[] testArray, String target) {
+        for(String x : testArray){
             if(x.equals(target)){
                 System.out.println(String.format("target %s == %s x", target, x));
                 return true;
