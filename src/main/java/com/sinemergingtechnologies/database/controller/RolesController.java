@@ -59,10 +59,10 @@ public class RolesController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Role> getSingleRole(@PathVariable("id") Long id) {
+    private ResponseEntity<Role> getSingleRole(@PathVariable("id") Integer id) {
         System.out.println("Searching for role with id " + id + ".");
 
-        if(id == null || id < 1) {
+        if(id < 0) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -77,7 +77,7 @@ public class RolesController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<Role> updateRole(@RequestBody Role roleToUpdate, @PathVariable Long id) {
+    private ResponseEntity<Role> updateRole(@RequestBody Role roleToUpdate, @PathVariable Integer id) {
         System.out.println("Updating role with id " + id + ".");
 
         if(id == null || id < 1) {
@@ -100,7 +100,7 @@ public class RolesController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity deleteRole(@PathVariable Long id) {
+    private ResponseEntity deleteRole(@PathVariable Integer id) {
         System.out.println("Deleting role with id " + id + ".");
         roleService.deleteById(id);
 

@@ -9,9 +9,9 @@ public abstract interface IRoleService {
 
     abstract List<Role> findAll();
     abstract List<Role> findByRoleTitle(String roleTitle);
-    abstract Optional<Role> findById(Long id);
+    abstract Optional<Role> findById(Integer id);
 
     abstract Role save(Role role);
 
-    abstract void deleteById(Long id);
+    abstract void deleteById(Integer id);
 }

@@ -20,7 +20,7 @@ public class RoleService implements IRoleService {
         return (List<Role>) roleRepository.findAll();
     }
     @Override
-    public Optional<Role> findById(Long id) {
+    public Optional<Role> findById(Integer id) {
         return roleRepository.findById(id);
     }
     @Override
@@ -34,7 +34,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         roleRepository.deleteById(id);
     }
 
