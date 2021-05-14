@@ -36,9 +36,9 @@ public class RolesMapService implements IRolesMapService {
     public RolesMap save(RolesMap rolesMap) {
         return (RolesMap) rolesMapRepository.save(rolesMap);
     }
-//
-//    @Override
-//    public void deleteById(Integer id) {
-//        rolesMapRepository.deleteById(id);
-//    }
+
+    @Override
+    public void deleteById(Integer id) {
+        rolesMapRepository.deleteById(id);
+    }
 }

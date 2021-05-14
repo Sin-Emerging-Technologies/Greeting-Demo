@@ -28,11 +28,9 @@ public class RolesMapController {
     }
 
     @GetMapping("/")
-    public String findRolesMaps() {
+    public ResponseEntity<List<RolesMap>>findRolesMaps() {
         List<RolesMap> rolesMaps = (List<RolesMap>) rolesMapService.findAll();
-        System.out.println(rolesMaps.size());
-        System.out.println(rolesMaps.get(0));
-        return "hello";
+        return ResponseEntity.ok(rolesMaps);
     }
 
     @GetMapping("/id/{id}")
@@ -115,5 +113,19 @@ public class RolesMapController {
         RolesMap updatedRolesMap = rolesMapService.save(preUpdateRolesMap);
 
         return ResponseEntity.ok(updatedRolesMap);
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity deleteRole(@PathVariable Integer id) {
+        System.out.println("Deleting rolesMap with id " + id + ".");
+        rolesMapService.deleteById(id);
+
+        Optional<RolesMap> foundSingleRolesMap = rolesMapService.findById(id);
+
+        if (foundSingleRolesMap.isPresent()) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+        }
+
+        return ResponseEntity.ok(id);
     }
 }
