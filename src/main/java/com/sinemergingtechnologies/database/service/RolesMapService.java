@@ -23,10 +23,10 @@ public class RolesMapService implements IRolesMapService {
     public Optional<RolesMap> findById(Integer id) {
         return rolesMapRepository.findById(id);
     }
-//    @Override
-//    public List<RolesMap> findByRoleTitle(String roleTitle) {
-//        return rolesMapRepository.findByRoleTitle(roleTitle);
-//    }
+    @Override
+    public Optional<RolesMap> findByUserid(Long userId) {
+        return rolesMapRepository.findByUserid(userId);
+    }
 //
 //    @Override
 //    public RolesMap save(RolesMap user) {

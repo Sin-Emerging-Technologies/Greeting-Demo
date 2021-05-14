@@ -31,7 +31,7 @@ public class RolesMapController {
         return "hello";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<RolesMap> findRolesMapsById(@PathVariable("id") Integer id) {
         Optional<RolesMap> rolesMap = rolesMapService.findById(id);
 
@@ -40,5 +40,16 @@ public class RolesMapController {
         }
 
         return ResponseEntity.ok(rolesMap.get());
+    }
+
+    @GetMapping("/userid/{id}")
+    public ResponseEntity<RolesMap> findRolesMapsByUserId(@PathVariable("id") Long id) {
+        Optional<RolesMap> rolesMaps = rolesMapService.findByUserid(id);
+
+        if (!rolesMaps.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(rolesMaps.get());
     }
 }

@@ -14,8 +14,8 @@ import java.util.UUID;
 public class RolesMap {
 
     private @Id int roles_map_id;
-    private @NonNull String user_id;
-    private @NonNull String role_id;
+    private @NonNull Long userid;
+    private @NonNull int roleid;
 
     @Override
     public boolean equals(Object o) {
@@ -31,15 +31,15 @@ public class RolesMap {
         if (this.getRoles_map_id() * 0 != 0) return false;
         System.out.println("this.getId() != null");
         System.out.println(this.getRoles_map_id() + ":" + other.getRoles_map_id());
-        System.out.println(this.getRole_id() + ":" + other.getRole_id());
+        System.out.println(this.getRoleid() + ":" + other.getRoleid());
 
         return this.getRoles_map_id() == other.getRoles_map_id();
     }
 
     public String toString() {
         return "id: " + this.getRoles_map_id() +
-            ",\nrole title: " + this.getRole_id() +
-            ",\nrole title: " + this.getUser_id();
+            ",\nrole title: " + this.getRoleid() +
+            ",\nrole title: " + this.getUserid();
     }
 
     @Override
