@@ -19,10 +19,10 @@ public class RolesMapService implements IRolesMapService {
     public List<RolesMap> findAll() {
         return (List<RolesMap>) rolesMapRepository.findAll();
     }
-//    @Override
-//    public Optional<RolesMap> findById(Integer id) {
-//        return rolesMapRepository.findById(id);
-//    }
+    @Override
+    public Optional<RolesMap> findById(Integer id) {
+        return rolesMapRepository.findById(id);
+    }
 //    @Override
 //    public List<RolesMap> findByRoleTitle(String roleTitle) {
 //        return rolesMapRepository.findByRoleTitle(roleTitle);
