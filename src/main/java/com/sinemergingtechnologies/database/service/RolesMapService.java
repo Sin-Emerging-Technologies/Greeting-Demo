@@ -27,6 +27,10 @@ public class RolesMapService implements IRolesMapService {
     public Optional<RolesMap> findByUserid(Long userId) {
         return rolesMapRepository.findByUserid(userId);
     }
+    @Override
+    public List<RolesMap> findByRoleid(Integer role_id) {
+        return rolesMapRepository.findByRoleid(role_id);
+    }
 //
 //    @Override
 //    public RolesMap save(RolesMap user) {

@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface RolesMapRepository extends CrudRepository<RolesMap, Integer> {
     Optional<RolesMap> findByUserid(Long userId);
+    List<RolesMap> findByRoleid(Integer role_id);
 }

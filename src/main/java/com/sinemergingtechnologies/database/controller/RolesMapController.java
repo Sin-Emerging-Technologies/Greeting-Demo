@@ -52,4 +52,15 @@ public class RolesMapController {
 
         return ResponseEntity.ok(rolesMaps.get());
     }
+
+    @GetMapping("/roleid/{id}")
+    public ResponseEntity<List<RolesMap>> findRolesMapsByRoleId(@PathVariable("id") Integer id) {
+        List<RolesMap> rolesMaps = rolesMapService.findByRoleid(id);
+
+        if (rolesMaps.size() < 1) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(rolesMaps);
+    }
 }
