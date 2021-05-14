@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RolesMapRepository extends CrudRepository<RolesMap, Integer> {
+public interface RolesMapRepository extends CrudRepository<RolesMap, Long> {
     Optional<RolesMap> findByUserid(Long userId);
     List<RolesMap> findByRoleid(Integer role_id);
 }

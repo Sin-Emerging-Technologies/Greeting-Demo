@@ -20,7 +20,7 @@ public class RolesMapService implements IRolesMapService {
         return (List<RolesMap>) rolesMapRepository.findAll();
     }
     @Override
-    public Optional<RolesMap> findById(Integer id) {
+    public Optional<RolesMap> findById(Long id) {
         return rolesMapRepository.findById(id);
     }
     @Override
@@ -38,7 +38,7 @@ public class RolesMapService implements IRolesMapService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         rolesMapRepository.deleteById(id);
     }
 }

@@ -9,9 +9,9 @@ import java.util.Optional;
 public abstract interface IRolesMapService {
 
     abstract List<RolesMap> findAll();
-    abstract Optional<RolesMap> findById(Integer id);
+    abstract Optional<RolesMap> findById(Long id);
     abstract Optional<RolesMap> findByUserid(Long userId);
     abstract List<RolesMap> findByRoleid(Integer role_id);
     abstract RolesMap save(RolesMap rolesMap);
-    abstract void deleteById(Integer id);
+    abstract void deleteById(Long id);
 }

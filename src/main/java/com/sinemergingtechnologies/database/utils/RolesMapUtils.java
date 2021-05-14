@@ -5,8 +5,8 @@ import com.sinemergingtechnologies.database.model.RolesMap;
 public class RolesMapUtils {
 
     public static boolean validRolesMap(RolesMap rolesMapUnderTest) {
-        if (rolesMapUnderTest.getRoles_map_id() * 0 != 0) {
-            System.out.println("rolesMapUnderTest.getId() * 0 != 0");
+        if (rolesMapUnderTest.getRoles_map_id() instanceof Long == false) {
+            System.out.println("rolesMapUnderTest.getId() instanceof Long == false");
             return false;
         }
 

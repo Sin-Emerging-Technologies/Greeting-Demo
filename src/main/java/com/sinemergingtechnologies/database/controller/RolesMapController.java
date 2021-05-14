@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sinemergingtechnologies.database.utils.RoleUtils.validRole;
 import static com.sinemergingtechnologies.database.utils.RolesMapUtils.validRolesMap;
 
 @RestController
@@ -34,7 +33,7 @@ public class RolesMapController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<RolesMap> findRolesMapsById(@PathVariable("id") Integer id) {
+    public ResponseEntity<RolesMap> findRolesMapsById(@PathVariable("id") Long id) {
         Optional<RolesMap> rolesMap = rolesMapService.findById(id);
 
         if (!rolesMap.isPresent()) {
@@ -92,7 +91,7 @@ public class RolesMapController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<RolesMap> updateRole(@RequestBody RolesMap rolesMapToUpdate, @PathVariable Integer id) {
+    private ResponseEntity<RolesMap> updateRole(@RequestBody RolesMap rolesMapToUpdate, @PathVariable Long id) {
         System.out.println("Updating RolesMap with id " + id + ".");
 
         if(id == null || id < 1) {
@@ -116,7 +115,7 @@ public class RolesMapController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity deleteRole(@PathVariable Integer id) {
+    private ResponseEntity deleteRole(@PathVariable Long id) {
         System.out.println("Deleting rolesMap with id " + id + ".");
         rolesMapService.deleteById(id);
 

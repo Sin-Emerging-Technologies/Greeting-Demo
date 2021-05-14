@@ -13,7 +13,8 @@ import java.util.UUID;
 @Table(name = "rolesmap")
 public class RolesMap {
 
-    private @Id int roles_map_id;
+    private UUID uuid = UUID.randomUUID();
+    private @Id Long roles_map_id = uuid.getMostSignificantBits() & Long.MAX_VALUE;
     private @NonNull Long userid;
     private @NonNull int roleid;
 
