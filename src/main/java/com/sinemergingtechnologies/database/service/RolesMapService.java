@@ -31,11 +31,11 @@ public class RolesMapService implements IRolesMapService {
     public List<RolesMap> findByRoleid(Integer role_id) {
         return rolesMapRepository.findByRoleid(role_id);
     }
-//
-//    @Override
-//    public RolesMap save(RolesMap user) {
-//        return (RolesMap) rolesMapRepository.save(user);
-//    }
+
+    @Override
+    public RolesMap save(RolesMap rolesMap) {
+        return (RolesMap) rolesMapRepository.save(rolesMap);
+    }
 //
 //    @Override
 //    public void deleteById(Integer id) {

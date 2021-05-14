@@ -12,8 +12,7 @@ public abstract interface IRolesMapService {
     abstract Optional<RolesMap> findById(Integer id);
     abstract Optional<RolesMap> findByUserid(Long userId);
     abstract List<RolesMap> findByRoleid(Integer role_id);
-//
-//    abstract Role save(RolesMap rolesMap);
+    abstract RolesMap save(RolesMap rolesMap);
 //
 //    abstract void deleteById(Integer id);
 }
