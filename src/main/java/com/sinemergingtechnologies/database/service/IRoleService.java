@@ -8,8 +8,10 @@ import java.util.Optional;
 public abstract interface IRoleService {
 
     abstract List<Role> findAll();
-    abstract Role save(Role role);
-    abstract Optional<Role> findById(Long id);
-    abstract void deleteById(Long id);
     abstract List<Role> findByRoleTitle(String roleTitle);
+    abstract Optional<Role> findById(Long id);
+
+    abstract Role save(Role role);
+
+    abstract void deleteById(Long id);
 }

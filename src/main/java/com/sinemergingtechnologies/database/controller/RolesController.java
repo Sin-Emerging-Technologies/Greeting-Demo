@@ -38,6 +38,7 @@ public class RolesController {
         System.out.println("Attempting to create new role");
 
         if (!validRole(newRole)) {
+            System.out.println("Did you add the role as an enum?");
             return ResponseEntity.badRequest().build();
         }
 

@@ -3,12 +3,9 @@ package com.sinemergingtechnologies.database.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.sinemergingtechnologies.database.model.User;
-import com.sinemergingtechnologies.database.model.LoginAttempt;
-import com.sinemergingtechnologies.database.model.PrimaryProviderMap;
-import com.sinemergingtechnologies.database.service.IUserService;
+import com.sinemergingtechnologies.database.model.*;
 
-import com.sinemergingtechnologies.database.service.IPrimaryProviderMapService;
+import com.sinemergingtechnologies.database.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +21,13 @@ import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
     @Autowired
-    private IPrimaryProviderMapService primaryProviderMapService;
+    private PrimaryProviderMapService primaryProviderMapService;
+    @Autowired
+    private RoleService rolesService;
+    @Autowired
+    private ProviderEmailService providerEmailService;
 
     private User sampleUser = new User(
             "firstname",
@@ -78,6 +79,7 @@ public class UserController {
         System.out.println("Attempting to create new user");
 
         if (!validUser(newUser)) {
+            System.out.println("Error with received user data");
             return ResponseEntity.badRequest().build();
         }
 
@@ -91,6 +93,7 @@ public class UserController {
         User createdUser = userService.save(newUser);
 
         if (!validUser(createdUser)) {
+            System.out.println("Error saving user data");
             return ResponseEntity.notFound().build();
         }
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "roles")
 public class Role {
 
-    private @Id Long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+    private @Id int id;
     private @NonNull String roleTitle;
 
     @Override
@@ -27,12 +27,12 @@ public class Role {
 
         Role other = (Role) o;
 
-        if (this.getId() == null) return false;
+        if (this.getId() * 0 != 0) return false;
         System.out.println("this.getId() != null");
         System.out.println(this.getId() + ":" + other.getId());
         System.out.println(this.getRoleTitle() + ":" + other.getRoleTitle());
 
-        return this.getId().equals(other.getId());
+        return this.getId() == other.getId();
     }
 
     public String toString() {

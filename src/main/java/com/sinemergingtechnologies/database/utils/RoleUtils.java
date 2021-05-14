@@ -1,5 +1,6 @@
 package com.sinemergingtechnologies.database.utils;
 
+import com.sinemergingtechnologies.database.Enums;
 import com.sinemergingtechnologies.database.model.Role;
 
 import java.util.UUID;
@@ -9,12 +10,8 @@ public class RoleUtils {
     private static int minStringLength = 1;
 
     public static boolean validRole(Role roleUnderTest) {
-        if (roleUnderTest.getId() instanceof Long == false) {
-            System.out.println("(roleUnderTest.getId() instanceof Long == false)");
-            return false;
-        }
-        if (roleUnderTest.getId() < minStringLength) {
-            System.out.println("(roleUnderTest.getId() < minStringLength)");
+        if (roleUnderTest.getId() * 0 != 0) {
+            System.out.println("roleUnderTest.getId() * 0 != 0");
             return false;
         }
 
@@ -27,6 +24,13 @@ public class RoleUtils {
             return false;
         }
 
-        return true;
+        for (int i = 0; i < Enums.RoleTitles.values().length; i++) {
+            if (Enums.RoleTitles.values()[i].toString()
+                    .equalsIgnoreCase(roleUnderTest.getRoleTitle())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

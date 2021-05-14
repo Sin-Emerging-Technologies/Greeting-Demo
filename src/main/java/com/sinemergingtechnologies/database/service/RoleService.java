@@ -19,6 +19,14 @@ public class RoleService implements IRoleService {
     public List<Role> findAll() {
         return (List<Role>) roleRepository.findAll();
     }
+    @Override
+    public Optional<Role> findById(Long id) {
+        return roleRepository.findById(id);
+    }
+    @Override
+    public List<Role> findByRoleTitle(String roleTitle) {
+        return roleRepository.findByRoleTitle(roleTitle);
+    }
 
     @Override
     public Role save(Role user) {
@@ -26,16 +34,9 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public Optional<Role> findById(Long id) {
-        return roleRepository.findById(id);
-    }
-    @Override
     public void deleteById(Long id) {
         roleRepository.deleteById(id);
     }
 
-    @Override
-    public List<Role> findByRoleTitle(String roleTitle) {
-        return roleRepository.findByRoleTitle(roleTitle);
-    }
+
 }
