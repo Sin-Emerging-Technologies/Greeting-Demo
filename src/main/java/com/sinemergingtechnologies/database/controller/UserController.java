@@ -1,8 +1,10 @@
 package com.sinemergingtechnologies.database.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.sinemergingtechnologies.database.Enums;
 import com.sinemergingtechnologies.database.model.*;
 
 import com.sinemergingtechnologies.database.service.*;
@@ -12,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+//import static com.sinemergingtechnologies.database.utils.RolesMapUtils.validRolesMap;
+import javax.swing.text.html.Option;
+
+import static com.sinemergingtechnologies.database.utils.RolesMapUtils.validRolesMap;
 import static com.sinemergingtechnologies.database.utils.UserUtils.validUser;
 import static com.sinemergingtechnologies.database.utils.PrimaryProviderMapUtils.validPrimaryProviderMap;
 
@@ -26,6 +32,8 @@ public class UserController {
     private PrimaryProviderMapService primaryProviderMapService;
     @Autowired
     private RoleService rolesService;
+    @Autowired
+    private RolesMapService rolesMapService;
     @Autowired
     private ProviderEmailService providerEmailService;
 
@@ -97,26 +105,60 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        // get list of providers
-        // List<User> providers = userService.findAll();
-        // now filter against Roles table for only providers
-        // List<Roles> roles = roleService.findAll();
+         boolean isProvider = false;
+         List<ProviderEmail> recognizedProviderEmails = providerEmailService.findAll();
 
-        // int randomIndex = (int) Math.floor(Math.random()*providers.size());
-        // PrimaryProviderMap map = new PrimaryProviderMap(
-        //         newUser.getUuid(),
-        //         newUser.getId(),
-        //         providers.get(randomIndex).getUuid(),
-        //         providers.get(randomIndex).getId()
-        // );
+         for (int i=0; i<recognizedProviderEmails.size(); i++) {
+             String recognizedProviderEmail = recognizedProviderEmails.get(i).getProviderEmail();
+             if (createdUser.getEmail().contains(recognizedProviderEmail)) {
+                 isProvider = true;
+             }
+         }
 
-        // PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
+         RolesMap rolesMap = new RolesMap();
+         rolesMap.setUserid(createdUser.getId());
+         if (isProvider) {
+             rolesMap.setRoleid(Enums.RoleTitles.PROVIDER.ordinal());
+         } else {
+             rolesMap.setRoleid(Enums.RoleTitles.CLIENT.ordinal());
+         }
 
-        // if (!validPrimaryProviderMap(savedMap)) {
-        //     return ResponseEntity
-        //             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        //             .body(createdUser);
-        // }
+         RolesMap createdRolesMap = rolesMapService.save(rolesMap);
+         if (!validRolesMap(createdRolesMap)) {
+             System.out.println("Error saving roles map");
+             return ResponseEntity.notFound().build();
+         }
+
+         if (!isProvider) {
+            // find and assign a random provider
+            List<RolesMap> providerMaps = rolesMapService.findByRoleid(Enums.RoleTitles.PROVIDER.ordinal());
+
+            List<User> providerUsers = new ArrayList<User>();
+            for (int i=0; i<providerMaps.size(); i++) {
+                Long userId = providerMaps.get(i).getUserid();
+                Optional<User> provider = userService.findById(userId);
+                if (provider.isPresent()) {
+                    providerUsers.add(provider.get());
+                }
+            }
+            System.out.println(String.format("Found %o providers", providerUsers.size()));
+
+            int randomIndex = (int) Math.floor(Math.random() * providerUsers.size());
+            PrimaryProviderMap map = new PrimaryProviderMap(
+                  newUser.getUuid(),
+                  newUser.getId(),
+                  providerUsers.get(randomIndex).getUuid(),
+                providerUsers.get(randomIndex).getId()
+            );
+
+            PrimaryProviderMap savedMap = primaryProviderMapService.save(map);
+
+            if (!validPrimaryProviderMap(savedMap)) {
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createdUser);
+            }
+         }
 
         return ResponseEntity.ok(createdUser);
     }
