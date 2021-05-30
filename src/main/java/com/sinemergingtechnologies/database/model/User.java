@@ -11,17 +11,38 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
+//bezkoder
+//@Table(	name = "users",
+//        uniqueConstraints = {
+//                @UniqueConstraint(columnNames = "username"),
+//                @UniqueConstraint(columnNames = "email")
+//        })
 public class User {
 
     private UUID uuid = UUID.randomUUID();
+//  bezkoder  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id Long id = uuid.getMostSignificantBits() & Long.MAX_VALUE;
     private @NonNull String firstname;
     private @NonNull String lastname;
+//    bezkoder
+//    @NotBlank
+//    @Size(max = 50)
+//    @Email
     private @NonNull String email;
     private @NonNull String city;
     private @NonNull String us_state;
     @Column(name="pass")
+//    bezkoder
+//    @NotBlank
+//    @Size(max = 120)
     private @NonNull String password;
+
+//    bezkoder
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(	name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private Set<Role> roles = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

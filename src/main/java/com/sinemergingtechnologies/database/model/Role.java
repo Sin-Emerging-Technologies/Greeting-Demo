@@ -13,7 +13,9 @@ import java.util.UUID;
 @Table(name = "roles")
 public class Role {
 
+    // bezkoder @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id int id;
+    // bezkoder @Column(length = 20)
     private @NonNull String roleTitle;
 
     @Override
