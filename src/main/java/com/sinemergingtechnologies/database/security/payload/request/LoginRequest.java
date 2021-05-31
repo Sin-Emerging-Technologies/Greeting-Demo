@@ -1,12 +1,13 @@
-package com.sinemergingtechnologies.database.model;
+package com.sinemergingtechnologies.database.security.payload.request;
 
+import com.sinemergingtechnologies.database.model.User;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class LoginAttempt {
+public class LoginRequest {
 
     private @NonNull String email;
     private @NonNull String password;

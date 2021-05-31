@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.sinemergingtechnologies.database.Enums;
 import com.sinemergingtechnologies.database.model.*;
 
+import com.sinemergingtechnologies.database.security.payload.request.LoginRequest;
 import com.sinemergingtechnologies.database.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 //import static com.sinemergingtechnologies.database.utils.RolesMapUtils.validRolesMap;
-import javax.swing.text.html.Option;
 
 import static com.sinemergingtechnologies.database.utils.RolesMapUtils.validRolesMap;
 import static com.sinemergingtechnologies.database.utils.UserUtils.validUser;
@@ -59,7 +59,7 @@ public class UserController {
     }
 
    @PostMapping("/login")
-   private ResponseEntity attemptLogin(@RequestBody LoginAttempt loginAttempt) {
+   private ResponseEntity attemptLogin(@RequestBody LoginRequest loginAttempt) {
        System.out.println("fake user login attempt");
        System.out.println(loginAttempt.toString());
 
