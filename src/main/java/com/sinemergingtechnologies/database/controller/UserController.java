@@ -37,15 +37,15 @@ public class UserController {
     @Autowired
     private ProviderEmailService providerEmailService;
 
-    private User sampleUser = new User(
-            "username",
-            "firstname",
-            "lastname",
-            "email",
-            "city",
-            "us_state",
-            "password"
-    );
+    private User sampleUser = new User().toBuilder()
+            .username("username")
+            .firstname("firstname")
+            .lastname("lastname")
+            .email("email")
+            .city("city")
+            .us_state("us_state")
+            .password("password")
+            .build();
 
 //    These paths are case-sensitive it appears
     @GetMapping("/")

@@ -13,4 +13,5 @@ public abstract interface IUserService {
     abstract void deleteById(Long id);
     abstract List<User> findByEmail(String email);
     abstract Optional<User> findByUsername(String username);
+    abstract boolean isValidUser(User user);
 }

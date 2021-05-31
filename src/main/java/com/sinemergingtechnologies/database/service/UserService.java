@@ -22,7 +22,10 @@ public class UserService implements IUserService {
 
     @Override
     public User save(User user) {
-        return (User) userRepository.save(user);
+        if (isValidUser(user)) {
+            return (User) userRepository.save(user);
+        }
+        throw new NullPointerException("Error saving user - isValidUser() returned false");
     }
 
     @Override
@@ -42,5 +45,20 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean isValidUser(User user) {
+        if (user.getPassword() == null) return false;
+        if (user.getEmail() == null) return false;
+        if (user.getId() == null) return false;
+        if (user.getUuid() == null) return false;
+
+        if (user.getPassword().length() < 1) return false;
+        if (user.getEmail().length() < 1) return false;
+        if (user.getId() < 1) return false;
+        if (user.getUuid().toString().length() < 1) return false;
+
+        return false;
     }
 }

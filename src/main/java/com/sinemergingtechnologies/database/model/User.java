@@ -10,7 +10,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "users")
 //bezkoder
@@ -28,22 +29,21 @@ public class User {
 //    same as email
 //    @NotBlank
 //    @Size(max = 50)
-    private @NonNull String username;
-
-    private @NonNull String firstname;
-    private @NonNull String lastname;
+    private String username;
+    private String firstname;
+    private String lastname;
 //    bezkoder
 //    @NotBlank
 //    @Size(max = 50)
 //    @Email
-    private @NonNull String email;
-    private @NonNull String city;
-    private @NonNull String us_state;
+    private String email;
+    private String city;
+    private String us_state;
     @Column(name="pass")
 //    bezkoder
 //    @NotBlank
 //    @Size(max = 120)
-    private @NonNull String password;
+    private String password;
 
 //    bezkoder
 //    @ManyToMany(fetch = FetchType.LAZY)
