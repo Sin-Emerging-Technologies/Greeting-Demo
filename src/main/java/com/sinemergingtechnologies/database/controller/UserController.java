@@ -38,6 +38,7 @@ public class UserController {
     private ProviderEmailService providerEmailService;
 
     private User sampleUser = new User(
+            "username",
             "firstname",
             "lastname",
             "email",

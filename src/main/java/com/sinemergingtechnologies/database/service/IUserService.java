@@ -12,4 +12,5 @@ public abstract interface IUserService {
     abstract Optional<User> findById(Long id);
     abstract void deleteById(Long id);
     abstract List<User> findByEmail(String email);
+    abstract Optional<User> findByUsername(String username);
 }

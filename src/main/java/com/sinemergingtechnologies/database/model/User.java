@@ -3,6 +3,8 @@ package com.sinemergingtechnologies.database.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +24,12 @@ public class User {
     private UUID uuid = UUID.randomUUID();
 //  bezkoder  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id Long id = uuid.getMostSignificantBits() & Long.MAX_VALUE;
+
+//    same as email
+//    @NotBlank
+//    @Size(max = 50)
+    private @NonNull String username;
+
     private @NonNull String firstname;
     private @NonNull String lastname;
 //    bezkoder
@@ -39,10 +47,12 @@ public class User {
 
 //    bezkoder
 //    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(	name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles = new HashSet<>();
+//    @JoinTable(name = "roles",
+//            joinColumns = @JoinColumn(name = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "id"))
+    @JoinTable
+    @OneToMany
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
