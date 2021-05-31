@@ -3,7 +3,6 @@ package com.sinemergingtechnologies.database.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ public class Role {
     // bezkoder @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id int id;
     // bezkoder @Column(length = 20)
-    private @NonNull String roleTitle;
+    private @NonNull String name;
 
     @Override
     public boolean equals(Object o) {
@@ -32,14 +31,14 @@ public class Role {
         if (this.getId() * 0 != 0) return false;
         System.out.println("this.getId() != null");
         System.out.println(this.getId() + ":" + other.getId());
-        System.out.println(this.getRoleTitle() + ":" + other.getRoleTitle());
+        System.out.println(this.getName() + ":" + other.getName());
 
         return this.getId() == other.getId();
     }
 
     public String toString() {
         return "id: " + this.getId() +
-                "\n, role title: " + this.getRoleTitle();
+                "\n, role title: " + this.getName();
     }
 
     @Override

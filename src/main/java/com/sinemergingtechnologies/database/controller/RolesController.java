@@ -21,7 +21,7 @@ public class RolesController {
     @Autowired
     private RoleService roleService;
 
-    private Role sampleRole = new Role("sampleRoleTitle");
+    private Role sampleRole = new Role("sampleRole");
 
     @GetMapping("/")
     private List<Role> getRoles(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -42,7 +42,7 @@ public class RolesController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Role> existingRoles = roleService.findByRoleTitle(newRole.getRoleTitle());
+        List<Role> existingRoles = roleService.findByName(newRole.getName());
 
         if (existingRoles.size() > 0) {
             System.out.println("Role entry already exists");
@@ -92,7 +92,7 @@ public class RolesController {
 
         Role preUpdateRole = foundSingleRole.get();
 
-        preUpdateRole.setRoleTitle(roleToUpdate.getRoleTitle());
+        preUpdateRole.setName(roleToUpdate.getName());
 
         Role updatedRole = roleService.save(preUpdateRole);
 

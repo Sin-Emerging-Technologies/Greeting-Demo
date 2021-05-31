@@ -20,7 +20,7 @@ public class StartupUtils {
         List<Role> rolesInDb = roleService.findAll();
         String[] rolesInDbStrings = new String[rolesInDb.size()];
         for(int i = 0; i < rolesInDb.size(); i++) {
-            rolesInDbStrings[i] = rolesInDb.get(i).getRoleTitle();
+            rolesInDbStrings[i] = rolesInDb.get(i).getName();
         }
 
         // for each enum we have
