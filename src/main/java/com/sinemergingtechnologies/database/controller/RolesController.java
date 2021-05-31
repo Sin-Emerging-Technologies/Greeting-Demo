@@ -42,9 +42,9 @@ public class RolesController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Role> existingRoles = roleService.findByName(newRole.getName());
+        Optional<Role> existingRoles = roleService.findByName(newRole.getName());
 
-        if (existingRoles.size() > 0) {
+        if (existingRoles.isPresent()) {
             System.out.println("Role entry already exists");
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

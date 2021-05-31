@@ -8,7 +8,7 @@ import java.util.Optional;
 public abstract interface IRoleService {
 
     abstract List<Role> findAll();
-    abstract List<Role> findByName(String name);
+    abstract Optional<Role> findByName(String name);
     abstract Optional<Role> findById(Integer id);
 
     abstract Role save(Role role);
