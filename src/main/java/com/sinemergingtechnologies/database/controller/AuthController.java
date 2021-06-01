@@ -11,6 +11,7 @@ import com.sinemergingtechnologies.database.security.payload.response.JwtRespons
 import com.sinemergingtechnologies.database.security.payload.response.MessageResponse;
 import com.sinemergingtechnologies.database.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,8 +46,13 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @GetMapping("/")
+    public String defaultGet() {
+        return "default GET  succeeded";
+    }
+
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -59,12 +65,15 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse().toBuilder()
+        ResponseEntity res = ResponseEntity.ok(new JwtResponse().toBuilder()
                 .token(jwt)
                 .id(userDetails.getId())
                 .username(userDetails.getUsername())
                 .email(userDetails.getEmail())
-                .roles(roles));
+                .roles(roles)
+            .build());
+
+        return res;
     }
 
     @PostMapping("/signup")
@@ -83,9 +92,16 @@ public class AuthController {
 
         // Create new user's account
         User user = new User().toBuilder()
+                .id(userCreateReq.getId())
+                .uuid(userCreateReq.getUuid())
+                .firstname(userCreateReq.getFirstname())
+                .lastname(userCreateReq.getLastname())
+                .city(userCreateReq.getCity())
+                .us_state(userCreateReq.getUs_state())
                 .username(userCreateReq.getUsername())
                 .email(userCreateReq.getEmail())
                 .password(encoder.encode(userCreateReq.getPassword()))
+                .roles(userCreateReq.getRoles())
                 .build();
         Set<Role> requestRoles = userCreateReq.getRoles();
         Set<Role> roles = new HashSet<>();
